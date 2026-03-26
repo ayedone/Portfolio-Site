@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Windows XP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none;}
+:root{
+  --font:'Tahoma',Arial,sans-serif;
+  --win-bg:#ECE9D8;
+  --win-border:#0054E3;
+  --title-active-l:#0B61AA;
+  --title-active-r:#6BAEE5;
+  --title-inactive-l:#7A96DF;
+  --title-inactive-r:#B8C7E0;
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);background:#000;}
+
+
+/* ── DESKTOP ─────────────────────────────────────────── */
+#desktop{position:fixed;inset:0;bottom:40px;overflow:hidden;}
+#desktop.show{opacity:1;}
+#wallpaper{position:absolute;inset:0;}
+#wallpaper svg{width:100%;height:100%;}
+
+/* ── DESKTOP ICONS ───────────────────────────────────── */
+.icon-grid{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:6px;z-index:5;}
+.dicon{display:flex;flex-direction:column;align-items:center;width:76px;padding:5px 3px;cursor:pointer;border-radius:3px;gap:4px;}
+.dicon:hover{background:rgba(49,106,197,.22);}
+.dicon.sel{background:rgba(49,106,197,.4);}
+.dicon-img{width:48px;height:48px;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.dicon-img img{width:48px;height:48px;object-fit:contain;image-rendering:auto;pointer-events:none;}
+.xbar-ico img{width:16px;height:16px;object-fit:contain;}
+.sm-ico img{width:22px;height:22px;object-fit:contain;}
+.tray-ico img{width:16px;height:16px;object-fit:contain;vertical-align:middle;}
+.sm-fBtn img{width:16px;height:16px;object-fit:contain;vertical-align:middle;}
+.sm-avatar img{width:48px;height:48px;object-fit:contain;border-radius:4px;}
+.wlc-avatar img{width:40px;height:40px;object-fit:contain;}
+.dicon-lbl{color:#fff;font-size:11px;text-align:center;text-shadow:1px 1px 2px rgba(0,0,0,.85),-1px -1px 2px rgba(0,0,0,.5);line-height:1.25;pointer-events:none;max-width:72px;}
+.dicon.sel .dicon-lbl{background:#316AC5;outline:1px dotted #fff;outline-offset:1px;}
+
+/* ── TASKBAR ─────────────────────────────────────────── */
+#taskbar{position:fixed;bottom:0;left:0;right:0;height:40px;background:linear-gradient(180deg,#2564BF 0%,#1D55B2 3%,#2563BE 5%,#245EDC 50%,#1E52CF 95%,#1544A4 100%);display:flex;align-items:center;z-index:2000;border-top:1px solid #1044BB;box-shadow:inset 0 1px 0 rgba(100,160,255,.4);}
+
+/* start btn */
+#startBtn{height:100%;min-width:96px;background:linear-gradient(180deg,#57A030 0%,#4EA62A 4%,#57A030 7%,#4BA628 50%,#3F9120 95%,#3A8A1C 100%);border:none;border-radius:0 14px 14px 0;cursor:pointer;display:flex;align-items:center;gap:6px;padding:0 12px 0 8px;color:#fff;font-family:var(--font);font-size:14px;font-weight:700;font-style:italic;letter-spacing:.5px;text-shadow:1px 1px 2px rgba(0,0,0,.6);box-shadow:1px 0 8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.3);margin-right:2px;}
+#startBtn:hover{background:linear-gradient(180deg,#67C040 0%,#5EC637 7%,#5BC234 50%,#4FAD28 100%);}
+#startBtn:active{background:linear-gradient(180deg,#3A8A1C 0%,#4BA628 50%,#57A030 100%);}
+#startBtn svg{width:22px;height:22px;flex-shrink:0;}
+
+/* taskbar window buttons */
+#tbWindows{flex:1;display:flex;align-items:center;gap:2px;padding:0 4px;overflow:hidden;}
+.tbBtn{height:28px;max-width:160px;min-width:100px;background:linear-gradient(180deg,#3A73D3 0%,#2A63C3 50%,#3A73D3 100%);border:1px solid #1044BB;border-radius:3px;color:#fff;font-family:var(--font);font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:1px 1px 1px rgba(0,0,0,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.2);}
+.tbBtn.on{background:linear-gradient(180deg,#1A4DAB 0%,#1E55B8 50%,#1A4DAB 100%);border-color:#0A3490;box-shadow:inset 1px 1px 3px rgba(0,0,0,.45);}
+.tbBtn:hover{background:linear-gradient(180deg,#4A83E3 0%,#3A73D3 50%,#4A83E3 100%);}
+.tbBtn-ico{flex-shrink:0;display:flex;align-items:center;}
+
+/* system tray */
+#tray{display:flex;align-items:center;gap:8px;padding:0 10px;height:100%;background:linear-gradient(180deg,#1147B4 0%,#1852C0 4%,#1147B4 6%,#1549BB 50%,#0E40B0 95%,#0A38A8 100%);border-left:1px solid #1044BB;margin-left:auto;box-shadow:-1px 0 4px rgba(0,0,0,.3);}
+.tray-ico{color:#fff;font-size:15px;cursor:pointer;}
+#clock{color:#fff;font-size:11px;text-align:center;line-height:1.45;white-space:nowrap;}
+
+/* ── START MENU ──────────────────────────────────────── */
+#startMenu{position:fixed;bottom:40px;left:0;width:330px;background:#fff;border:1px solid #0054E3;border-radius:8px 8px 0 0;box-shadow:4px -2px 20px rgba(0,0,0,.55);z-index:1999;display:none;overflow:hidden;}
+#startMenu.open{display:block;}
+.sm-head{background:linear-gradient(90deg,#1C5FA5,#3A8AE0);padding:8px 14px;display:flex;align-items:center;gap:12px;}
+.sm-avatar{width:48px;height:48px;border-radius:4px;background:linear-gradient(135deg,#4FC3F7,#1565C0);display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid rgba(255,255,255,.45);}
+.sm-uname{color:#fff;font-size:14px;font-weight:700;text-shadow:1px 1px 2px rgba(0,0,0,.5);}
+.sm-body{display:flex;min-height:280px;}
+.sm-left{flex:1;background:#fff;border-right:1px solid #C8D4E8;padding:6px 0;}
+.sm-right{width:140px;background:#D3E5FA;padding:6px 0;}
+.sm-row{display:flex;align-items:center;gap:10px;padding:5px 12px;cursor:pointer;font-size:12px;color:#000;}
+.sm-row:hover{background:#316AC5;color:#fff;}
+.sm-row .sm-ico{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+.sm-rtitle{font-size:11px;color:#555;padding:4px 12px 3px;font-weight:700;border-bottom:1px solid #B8CCE4;margin-bottom:3px;}
+.sm-sep{height:1px;background:#ddd;margin:4px 0;}
+.sm-foot{background:#D3E5FA;border-top:1px solid #99BAEF;padding:6px 12px;display:flex;justify-content:flex-end;gap:8px;}
+.sm-fBtn{display:flex;align-items:center;gap:5px;padding:3px 10px;background:none;border:1px solid transparent;cursor:pointer;font-family:var(--font);font-size:12px;border-radius:3px;}
+.sm-fBtn:hover{background:rgba(49,106,197,.15);border-color:#316AC5;}
+
+/* ── XP WINDOWS ──────────────────────────────────────── */
+.xwin{position:fixed;background:var(--win-bg);border:2px solid var(--win-border);border-radius:8px 8px 0 0;box-shadow:3px 4px 18px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.25);display:none;flex-direction:column;min-width:220px;min-height:160px;z-index:100;}
+.xwin.open{display:flex;}
+/* title bar */
+.xbar{height:30px;border-radius:6px 6px 0 0;display:flex;align-items:center;padding:0 5px;gap:5px;cursor:move;flex-shrink:0;}
+.xwin.active .xbar{background:linear-gradient(90deg,var(--title-active-l) 0%,#1272CC 12%,#3D96F6 42%,#3D96F6 58%,#1272CC 88%,var(--title-active-l) 100%);}
+.xwin:not(.active) .xbar{background:linear-gradient(90deg,var(--title-inactive-l) 0%,var(--title-inactive-r) 50%,var(--title-inactive-l) 100%);}
+.xbar-ico{width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.xbar-title{flex:1;color:#fff;font-size:12px;font-weight:700;text-shadow:1px 1px 2px rgba(0,0,0,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.xbar-btns{display:flex;gap:2px;flex-shrink:0;}
+.xbtn{width:21px;height:21px;border:1px solid rgba(0,0,0,.3);border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;text-shadow:1px 1px 1px rgba(0,0,0,.4);font-family:var(--font);flex-shrink:0;}
+.xbtn-min{background:linear-gradient(180deg,#5CB0F0,#2A7FD4);border-color:#1066B5;}
+.xbtn-min:hover{background:linear-gradient(180deg,#7CCCFF,#4A9FF0);}
+.xbtn-max{background:linear-gradient(180deg,#5CB0F0,#2A7FD4);border-color:#1066B5;}
+.xbtn-max:hover{background:linear-gradient(180deg,#7CCCFF,#4A9FF0);}
+.xbtn-cls{background:linear-gradient(180deg,#F06060,#CC2020);border-color:#AA1010;}
+.xbtn-cls:hover{background:linear-gradient(180deg,#FF8080,#EE4040);}
+/* menu bar */
+.xmenu{display:flex;align-items:center;background:var(--win-bg);border-bottom:1px solid #ACA899;height:22px;flex-shrink:0;}
+.xmitem{padding:2px 8px;font-size:11px;cursor:pointer;color:#000;}
+.xmitem:hover{background:#316AC5;color:#fff;}
+/* content */
+.xcontent{flex:1;overflow:auto;background:#fff;position:relative;}
+/* status bar */
+.xstatus{height:20px;background:var(--win-bg);border-top:1px solid #ACA899;display:flex;align-items:center;padding:0 6px;font-size:11px;color:#333;flex-shrink:0;gap:6px;}
+.xstat-item{padding-right:8px;border-right:1px solid #ACA899;}
+.xstat-item:last-child{border:none;}
+/* resize handles */
+.rh{position:absolute;z-index:10;}
+.rh-se{bottom:0;right:0;width:16px;height:16px;cursor:se-resize;}
+.rh-s{bottom:0;left:8px;right:8px;height:4px;cursor:s-resize;}
+.rh-e{right:0;top:8px;bottom:8px;width:4px;cursor:e-resize;}
+.rh-w{left:0;top:8px;bottom:8px;width:4px;cursor:w-resize;}
+.rh-n{top:0;left:8px;right:8px;height:4px;cursor:n-resize;}
+.rh-sw{bottom:0;left:0;width:16px;height:16px;cursor:sw-resize;}
+.rh-ne{top:0;right:0;width:16px;height:16px;cursor:ne-resize;}
+.rh-nw{top:0;left:0;width:16px;height:16px;cursor:nw-resize;}
+/* minimize animation */
+@keyframes winMin{0%{transform:scale(1);opacity:1}100%{transform:scale(.05) translateY(300px);opacity:0}}
+@keyframes winRst{0%{transform:scale(.05) translateY(300px);opacity:0}100%{transform:scale(1);opacity:1}}
+.winmin-anim{animation:winMin .2s ease-in forwards;}
+.winrst-anim{animation:winRst .2s ease-out forwards;}
+
+/* ── CONTEXT MENU ────────────────────────────────────── */
+#ctxMenu{position:fixed;background:#fff;border:1px solid #888;box-shadow:3px 3px 10px rgba(0,0,0,.3);z-index:8000;min-width:170px;display:none;padding:2px 0;font-family:var(--font);}
+.ctx-item{padding:4px 22px;font-size:12px;cursor:pointer;color:#000;}
+.ctx-item:hover{background:#316AC5;color:#fff;}
+.ctx-sep{height:1px;background:#ddd;margin:3px 0;}
+
+/* ── SCROLLBAR ───────────────────────────────────────── */
+::-webkit-scrollbar{width:16px;height:16px;}
+::-webkit-scrollbar-track{background:#ECE9D8;border:1px solid #ACA899;}
+::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#E0DDD1,#C2BEB2);border:1px solid #888;}
+
+/* ── WINDOW CONTENT STYLES ───────────────────────────── */
+
+/* Projects — Explorer folder view */
+.proj-explorer{display:flex;flex-wrap:wrap;gap:4px;padding:10px;align-content:flex-start;background:#fff;min-height:100%;}
+.proj-folder{display:flex;flex-direction:column;align-items:center;width:80px;padding:6px 4px;cursor:pointer;border-radius:2px;gap:3px;}
+.proj-folder:hover{background:rgba(49,106,197,.15);}
+.proj-folder.sel{background:rgba(49,106,197,.35);}
+.proj-folder img{width:48px;height:48px;object-fit:contain;pointer-events:none;}
+.proj-folder span{font-size:11px;text-align:center;color:#000;line-height:1.2;pointer-events:none;word-break:break-word;}
+.proj-folder.sel span{background:#316AC5;color:#fff;outline:1px dotted #fff;}
+
+/* Project gallery window */
+.gallery-wrap{display:flex;flex-direction:column;height:100%;}
+.gallery-main{flex:1;background:#1a1a1a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;min-height:0;}
+.gallery-main img{max-width:100%;max-height:100%;object-fit:contain;display:block;}
+.gallery-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;font-size:20px;width:36px;height:36px;cursor:pointer;border-radius:2px;display:flex;align-items:center;justify-content:center;}
+.gallery-nav:hover{background:rgba(49,106,197,.8);}
+.gallery-prev{left:8px;}
+.gallery-next{right:8px;}
+.gallery-counter{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-family:var(--font);}
+.gallery-strip{height:72px;background:#ECE9D8;border-top:1px solid #ACA899;display:flex;gap:4px;padding:4px;overflow-x:auto;flex-shrink:0;}
+.gallery-strip::-webkit-scrollbar{height:8px;}
+.gallery-strip::-webkit-scrollbar-track{background:#ECE9D8;}
+.gallery-strip::-webkit-scrollbar-thumb{background:#C2BEB2;border:1px solid #888;}
+.gthumb{width:56px;height:56px;object-fit:cover;cursor:pointer;border:2px solid transparent;flex-shrink:0;border-radius:1px;}
+.gthumb:hover{border-color:#316AC5;}
+.gthumb.active{border-color:#316AC5;outline:1px solid #fff;}
+
+/* Resume */
+.res-wrap{padding:16px;font-size:12px;color:#000;-webkit-user-select:text;user-select:text;}
+.res-name{font-size:20px;font-weight:700;color:#003087;margin-bottom:2px;}
+.res-contact{color:#666;font-size:11px;margin-bottom:14px;}
+.res-sec{margin-bottom:14px;}
+.res-sec-title{font-size:13px;font-weight:700;color:#003087;border-bottom:2px solid #316AC5;padding-bottom:2px;margin-bottom:8px;letter-spacing:.3px;}
+.res-item{margin-bottom:9px;}
+.res-hdr{display:flex;justify-content:space-between;font-weight:700;font-size:12px;}
+.res-sub{color:#555;font-size:11px;margin-bottom:3px;}
+.res-item ul{padding-left:16px;color:#333;font-size:11px;}
+.res-item li{margin-bottom:2px;line-height:1.45;}
+.skills-wrap{display:flex;flex-wrap:wrap;gap:5px;}
+.skill{background:#316AC5;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;}
+
+/* About */
+.about-wrap{padding:16px;}
+.about-head{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+.about-ava{width:76px;height:76px;border-radius:8px;background:linear-gradient(135deg,#4FC3F7,#1565C0);display:flex;align-items:center;justify-content:center;font-size:44px;flex-shrink:0;border:2px solid #316AC5;}
+.about-intro h2{font-size:15px;color:#003087;margin-bottom:3px;}
+.about-role{color:#316AC5;font-size:12px;margin-bottom:7px;}
+.about-intro p{font-size:12px;color:#333;line-height:1.6;}
+.about-sec{margin-bottom:11px;}
+.about-sec h3{font-size:12px;font-weight:700;color:#003087;border-bottom:1px solid #CCC;padding-bottom:2px;margin-bottom:5px;}
+.about-sec p{font-size:12px;color:#333;line-height:1.6;}
+
+/* Contact */
+.contact-wrap{padding:16px;}
+.contact-wrap h2{font-size:14px;color:#003087;margin-bottom:12px;}
+.fg{margin-bottom:9px;}
+.fg label{display:block;font-size:11px;font-weight:700;color:#333;margin-bottom:3px;}
+.fg input,.fg textarea{width:100%;border:1px solid #888;border-radius:2px;padding:4px 6px;font-family:var(--font);font-size:11px;background:#fff;outline:none;-webkit-user-select:text;user-select:text;}
+.fg input:focus,.fg textarea:focus{border-color:#316AC5;box-shadow:0 0 3px rgba(49,106,197,.35);}
+.fg textarea{resize:vertical;min-height:76px;}
+.xp-btn-form{background:linear-gradient(180deg,#ECE9D8,#D4D0C8);border:1px solid #888;border-radius:3px;padding:4px 14px;font-family:var(--font);font-size:12px;cursor:pointer;color:#000;}
+.xp-btn-form:hover{background:linear-gradient(180deg,#EEF0FA,#D8DCF0);border-color:#316AC5;}
+.xp-btn-form:active{background:linear-gradient(180deg,#D4D0C8,#ECE9D8);}
+
+/* My Computer */
+.mycomp-wrap{padding:12px 14px;background:var(--win-bg);}
+.mycomp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.drive-tile{background:#fff;border:1px solid #C4C0B8;padding:8px 10px;border-radius:4px;display:flex;align-items:center;gap:8px;cursor:pointer;}
+.drive-tile:hover{background:#EEF0FA;border-color:#316AC5;}
+.drive-ico{font-size:28px;flex-shrink:0;}
+.drive-info{min-width:0;}
+.drive-info p{font-size:11px;font-weight:700;color:#000;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.drive-info span{font-size:10px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
+.drive-bar{height:5px;background:#DDD;border-radius:3px;margin-top:3px;overflow:hidden;}
+.drive-fill{height:100%;background:#316AC5;border-radius:3px;}
+.sysinfo{margin-top:8px;background:#fff;border:1px solid #C4C0B8;border-radius:4px;padding:7px 12px;}
+.sysinfo p{font-size:11px;color:#333;line-height:1.6;margin:0;}
+.sysinfo strong{color:#003087;}
+
+/* ── TOOLTIP ─────────────────────────────────────────── */
+#tooltip{position:fixed;background:#FFFFE1;border:1px solid #888;padding:3px 7px;font-size:11px;color:#000;z-index:9999;pointer-events:none;display:none;}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media(max-width:600px){
+  .icon-grid{top:4px;left:4px;gap:4px;}
+  .dicon{width:60px;}
+  .proj-grid{grid-template-columns:1fr;}
+  #startMenu{width:280px;}
+}
+</style>
+</head>
+<body>
+
+
+<!-- ════════════ DESKTOP ════════════ -->
+<div id="desktop">
+  <!-- Bliss Wallpaper -->
+  <div id="wallpaper">
+    <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3A7FC4"/>
+          <stop offset="35%" stop-color="#5BA8E0"/>
+          <stop offset="100%" stop-color="#97D4F5"/>
+        </linearGradient>
+        <linearGradient id="hillG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5DB847"/>
+          <stop offset="100%" stop-color="#3A8828"/>
+        </linearGradient>
+        <linearGradient id="hillG2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4CAD38"/>
+          <stop offset="100%" stop-color="#2E7018"/>
+        </linearGradient>
+        <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+        <filter id="blur2" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="4"/>
+        </filter>
+        <radialGradient id="sunG" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(255,255,220,.25)"/>
+          <stop offset="100%" stop-color="rgba(255,255,220,0)"/>
+        </radialGradient>
+      </defs>
+      <!-- Sky -->
+      <rect width="1920" height="1080" fill="url(#skyG)"/>
+      <!-- Sun glow -->
+      <ellipse cx="1450" cy="220" rx="200" ry="140" fill="url(#sunG)" filter="url(#blur)"/>
+      <!-- Clouds cluster 1 -->
+      <g filter="url(#blur2)">
+        <ellipse cx="280" cy="185" rx="140" ry="58" fill="rgba(255,255,255,.92)"/>
+        <ellipse cx="380" cy="162" rx="110" ry="50" fill="rgba(255,255,255,.95)"/>
+        <ellipse cx="230" cy="205" rx="88" ry="44" fill="rgba(255,255,255,.9)"/>
+        <ellipse cx="460" cy="188" rx="75" ry="40" fill="rgba(255,255,255,.85)"/>
+      </g>
+      <!-- Clouds cluster 2 -->
+      <g filter="url(#blur2)">
+        <ellipse cx="880" cy="150" rx="155" ry="60" fill="rgba(255,255,255,.88)"/>
+        <ellipse cx="1010" cy="128" rx="120" ry="52" fill="rgba(255,255,255,.9)"/>
+        <ellipse cx="820" cy="170" rx="95" ry="46" fill="rgba(255,255,255,.85)"/>
+      </g>
+      <!-- Clouds cluster 3 -->
+      <g filter="url(#blur2)">
+        <ellipse cx="1540" cy="210" rx="130" ry="54" fill="rgba(255,255,255,.82)"/>
+        <ellipse cx="1660" cy="185" rx="105" ry="46" fill="rgba(255,255,255,.82)"/>
+        <ellipse cx="1480" cy="228" rx="80" ry="38" fill="rgba(255,255,255,.78)"/>
+      </g>
+      <!-- Distant cloud wisps -->
+      <g opacity="0.55" filter="url(#blur2)">
+        <ellipse cx="650" cy="270" rx="90" ry="32" fill="white"/>
+        <ellipse cx="1220" cy="245" rx="100" ry="35" fill="white"/>
+        <ellipse cx="1780" cy="300" rx="80" ry="30" fill="white"/>
+      </g>
+      <!-- Far background hills -->
+      <path d="M0,700 Q160,590 360,650 Q560,590 760,660 Q960,590 1160,650 Q1360,570 1560,630 Q1740,590 1920,610 L1920,1080 L0,1080Z" fill="#3A7A25" opacity="0.65"/>
+      <!-- Mid-ground hill -->
+      <path d="M0,760 Q200,610 430,700 Q680,590 920,730 Q1160,600 1420,690 Q1660,590 1920,650 L1920,1080 L0,1080Z" fill="url(#hillG2)"/>
+      <!-- Main foreground hill (Bliss) -->
+      <path d="M0,800 Q240,610 500,750 Q760,600 980,770 Q1200,610 1460,730 Q1680,620 1920,680 L1920,1080 L0,1080Z" fill="url(#hillG)"/>
+      <!-- Highlight sheen on foreground hill -->
+      <path d="M0,820 Q240,645 500,775 Q760,632 980,792 Q1200,642 1460,752 Q1680,645 1920,700 L1920,730 Q1680,668 1460,778 Q1200,668 980,820 Q760,660 500,800 Q240,672 0,848Z" fill="rgba(120,230,80,.12)"/>
+      <!-- Deep ground -->
+      <path d="M0,900 Q480,840 960,900 Q1440,840 1920,870 L1920,1080 L0,1080Z" fill="#286A14"/>
+    </svg>
+  </div>
+
+  <!-- Desktop Icons -->
+  <div class="icon-grid" id="iconGrid">
+
+    <div class="dicon" id="ico-mycomp" ondblclick="openWin('mycomp')">
+      <div class="dicon-img"><img src="icons/my-computer.png" alt="My Computer"></div>
+      <div class="dicon-lbl">My Computer</div>
+    </div>
+
+    <div class="dicon" id="ico-projects" ondblclick="openWin('projects')">
+      <div class="dicon-img"><img src="icons/folder.png" alt="My Projects"></div>
+      <div class="dicon-lbl">My Projects</div>
+    </div>
+
+    <div class="dicon" id="ico-resume" ondblclick="openWin('resume')">
+      <div class="dicon-img"><img src="icons/notepad.png" alt="Resume"></div>
+      <div class="dicon-lbl">Resume</div>
+    </div>
+
+    <div class="dicon" id="ico-about" ondblclick="openWin('about')">
+      <div class="dicon-img"><img src="icons/user-accounts.png" alt="About Me"></div>
+      <div class="dicon-lbl">About Me</div>
+    </div>
+
+    <div class="dicon" id="ico-contact" ondblclick="openWin('contact')">
+      <div class="dicon-img"><img src="icons/email.png" alt="Contact"></div>
+      <div class="dicon-lbl">Contact</div>
+    </div>
+
+    <div class="dicon" id="ico-recycle">
+      <div class="dicon-img"><img src="icons/recycle-bin-empty.png" alt="Recycle Bin" id="recycleImg"></div>
+      <div class="dicon-lbl">Recycle Bin</div>
+    </div>
+
+  </div>
+</div><!-- /desktop -->
+
+<!-- ════════════ TASKBAR ════════════ -->
+<div id="taskbar">
+  <button id="startBtn" onclick="toggleStart()">
+    <svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="9" height="9" rx="1" fill="#EE3333"/>
+      <rect x="12" y="1" width="9" height="9" rx="1" fill="#22AA44"/>
+      <rect x="1" y="12" width="9" height="9" rx="1" fill="#2244EE"/>
+      <rect x="12" y="12" width="9" height="9" rx="1" fill="#FFBB00"/>
+    </svg>
+    start
+  </button>
+  <div id="tbWindows"></div>
+  <div id="tray">
+    <span class="tray-ico" title="Volume"><img src="icons/volume.png" alt="Volume"></span>
+    <span class="tray-ico" title="Network"><img src="icons/network.png" alt="Network"></span>
+    <div id="clock"><div id="clkTime">12:00 PM</div><div id="clkDate">1/1/2006</div></div>
+  </div>
+</div>
+
+<!-- ════════════ START MENU ════════════ -->
+<div id="startMenu">
+  <div class="sm-head">
+    <div class="sm-avatar"><img src="icons/user-accounts.png" alt="User"></div>
+    <div class="sm-uname">Aiden DeVere</div>
+  </div>
+  <div class="sm-body">
+    <div class="sm-left">
+      <div class="sm-row" onclick="openWin('projects');closeStart()"><div class="sm-ico"><img src="icons/folder.png" alt=""></div>My Projects</div>
+      <div class="sm-row" onclick="openWin('resume');closeStart()"><div class="sm-ico"><img src="icons/notepad.png" alt=""></div>Resume</div>
+      <div class="sm-row" onclick="openWin('about');closeStart()"><div class="sm-ico"><img src="icons/user-accounts.png" alt=""></div>About Me</div>
+      <div class="sm-row" onclick="openWin('contact');closeStart()"><div class="sm-ico"><img src="icons/email.png" alt=""></div>Contact</div>
+      <div class="sm-sep"></div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/ie6.png" alt=""></div>Internet Explorer</div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/outlook.png" alt=""></div>Outlook Express</div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/minesweeper.png" alt=""></div>Minesweeper</div>
+    </div>
+    <div class="sm-right">
+      <div class="sm-rtitle">My Computer</div>
+      <div class="sm-row" onclick="openWin('mycomp');closeStart()"><div class="sm-ico"><img src="icons/my-computer.png" alt=""></div>My Computer</div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/my-documents.png" alt=""></div>My Documents</div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/my-pictures.png" alt=""></div>My Pictures</div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/my-music.png" alt=""></div>My Music</div>
+      <div class="sm-sep"></div>
+      <div class="sm-rtitle">Settings</div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/control-panel.png" alt=""></div>Control Panel</div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/printer.png" alt=""></div>Printers &amp; Faxes</div>
+      <div class="sm-row"><div class="sm-ico"><img src="icons/search.png" alt=""></div>Search</div>
+    </div>
+  </div>
+  <div class="sm-foot">
+    <button class="sm-fBtn"><img src="icons/switch-user.png" alt=""> Log Off</button>
+    <button class="sm-fBtn"><img src="icons/shutdown.png" alt=""> Turn Off Computer</button>
+  </div>
+</div>
+
+<!-- ════════════ CONTEXT MENU ════════════ -->
+<div id="ctxMenu">
+  <div class="ctx-item">Arrange Icons By ▶</div>
+  <div class="ctx-item">Refresh</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item">Paste</div>
+  <div class="ctx-item">Paste Shortcut</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item">New ▶</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item">Properties</div>
+</div>
+
+<!-- ════════════ TOOLTIP ════════════ -->
+<div id="tooltip"></div>
+
+<!-- ═══════════════════════════════════════
+     WINDOWS
+     ═══════════════════════════════════════ -->
+
+<!-- MY COMPUTER -->
+<div class="xwin active" id="xwin-mycomp" style="width:500px;height:380px;">
+  <div class="xbar" data-wid="mycomp">
+    <div class="xbar-ico"><img src="icons/my-computer.png" alt=""></div>
+    <div class="xbar-title">My Computer</div>
+    <div class="xbar-btns">
+      <div class="xbtn xbtn-min" onclick="minWin('mycomp')" title="Minimize">_</div>
+      <div class="xbtn xbtn-max" onclick="maxWin('mycomp')" title="Maximize" id="maxBtn-mycomp">□</div>
+      <div class="xbtn xbtn-cls" onclick="closeWin('mycomp')" title="Close">✕</div>
+    </div>
+  </div>
+  <div class="xmenu">
+    <span class="xmitem">File</span><span class="xmitem">Edit</span>
+    <span class="xmitem">View</span><span class="xmitem">Help</span>
+  </div>
+  <div class="xcontent">
+    <div class="mycomp-wrap">
+      <p style="font-size:11px;color:#555;margin-bottom:10px;">Skills &amp; Tools — Double-click a drive to explore.</p>
+      <div class="mycomp-grid">
+        <div class="drive-tile">
+          <div class="drive-ico"><img src="icons/my-network.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
+          <div class="drive-info">
+            <p>Paid Media &amp; Analytics (C:)</p>
+            <span>Google Ads · Meta Ads · UTM · GA4 · Looker Studio</span>
+            <div class="drive-bar"><div class="drive-fill" style="width:90%"></div></div>
+          </div>
+        </div>
+        <div class="drive-tile">
+          <div class="drive-ico"><img src="icons/shared-folder.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
+          <div class="drive-info">
+            <p>CRM &amp; Lead Ops (D:)</p>
+            <span>Salesforce · Lead Docket · CallRail · HubSpot</span>
+            <div class="drive-bar"><div class="drive-fill" style="width:82%"></div></div>
+          </div>
+        </div>
+        <div class="drive-tile">
+          <div class="drive-ico"><img src="icons/my-documents.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
+          <div class="drive-info">
+            <p>Content &amp; Social (E:)</p>
+            <span>SEO · Paid Social · Email · Content Strategy</span>
+            <div class="drive-bar"><div class="drive-fill" style="width:87%"></div></div>
+          </div>
+        </div>
+        <div class="drive-tile">
+          <div class="drive-ico"><img src="icons/my-pictures.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
+          <div class="drive-info">
+            <p>Creative Suite (F:)</p>
+            <span>Photoshop · Illustrator · Premiere Pro · After Effects · Canva</span>
+            <div class="drive-bar"><div class="drive-fill" style="width:95%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sysinfo">
+        <p><strong>Experience:</strong> 3+ Years · Digital Marketing &amp; Creative Design</p>
+        <p><strong>Key Win:</strong> $200K+ Revenue · 20x ROAS — Telaré Law</p>
+        <p><strong>Clients:</strong> Oakland A's · GCU · Telaré Law · SEBC</p>
+        <p><strong>Education:</strong> B.A. Marketing &amp; Sales, Grand Canyon University · Dean's List 2021</p>
+      </div>
+    </div>
+  </div>
+  <div class="xstatus"><span class="xstat-item">4 skill drives</span></div>
+  <div class="rh rh-se" data-wid="mycomp" data-dir="se"></div>
+  <div class="rh rh-s"  data-wid="mycomp" data-dir="s"></div>
+  <div class="rh rh-e"  data-wid="mycomp" data-dir="e"></div>
+  <div class="rh rh-w"  data-wid="mycomp" data-dir="w"></div>
+  <div class="rh rh-n"  data-wid="mycomp" data-dir="n"></div>
+  <div class="rh rh-sw" data-wid="mycomp" data-dir="sw"></div>
+  <div class="rh rh-ne" data-wid="mycomp" data-dir="ne"></div>
+  <div class="rh rh-nw" data-wid="mycomp" data-dir="nw"></div>
+</div>
+
+<!-- MY PROJECTS -->
+<div class="xwin active" id="xwin-projects" style="width:580px;height:450px;">
+  <div class="xbar" data-wid="projects">
+    <div class="xbar-ico"><img src="icons/folder.png" alt=""></div>
+    <div class="xbar-title">My Projects</div>
+    <div class="xbar-btns">
+      <div class="xbtn xbtn-min" onclick="minWin('projects')">_</div>
+      <div class="xbtn xbtn-max" onclick="maxWin('projects')" id="maxBtn-projects">□</div>
+      <div class="xbtn xbtn-cls" onclick="closeWin('projects')">✕</div>
+    </div>
+  </div>
+  <div class="xmenu">
+    <span class="xmitem">File</span><span class="xmitem">Edit</span>
+    <span class="xmitem">View</span><span class="xmitem">Favorites</span>
+    <span class="xmitem">Help</span>
+  </div>
+  <div class="xcontent">
+    <div class="proj-explorer">
+      <div class="proj-folder" ondblclick="openProject('oakland-as')">
+        <img src="icons/folder.png" alt=""><span>Oakland A's</span>
+      </div>
+      <div class="proj-folder" ondblclick="openProject('telare-law')">
+        <img src="icons/folder.png" alt=""><span>Telare Law</span>
+      </div>
+      <div class="proj-folder" ondblclick="openProject('sebc')">
+        <img src="icons/folder.png" alt=""><span>SEBC</span>
+      </div>
+      <div class="proj-folder" ondblclick="openProject('social-posts')">
+        <img src="icons/folder.png" alt=""><span>Social Posts</span>
+      </div>
+      <div class="proj-folder" ondblclick="openProject('gcu')">
+        <img src="icons/folder.png" alt=""><span>GCU</span>
+      </div>
+      <div class="proj-folder" ondblclick="openProject('clothing-design')">
+        <img src="icons/folder.png" alt=""><span>Clothing Design</span>
+      </div>
+      <div class="proj-folder" ondblclick="openProject('posters')">
+        <img src="icons/folder.png" alt=""><span>Posters</span>
+      </div>
+      <div class="proj-folder" ondblclick="openProject('album-artwork')">
+        <img src="icons/folder.png" alt=""><span>Album Artwork</span>
+      </div>
+    </div>
+  </div>
+  <div class="xstatus">
+    <span class="xstat-item">8 folders</span>
+    <span class="xstat-item">Double-click a folder to open</span>
+  </div>
+  <div class="rh rh-se" data-wid="projects" data-dir="se"></div>
+  <div class="rh rh-s"  data-wid="projects" data-dir="s"></div>
+  <div class="rh rh-e"  data-wid="projects" data-dir="e"></div>
+  <div class="rh rh-w"  data-wid="projects" data-dir="w"></div>
+  <div class="rh rh-n"  data-wid="projects" data-dir="n"></div>
+  <div class="rh rh-sw" data-wid="projects" data-dir="sw"></div>
+  <div class="rh rh-ne" data-wid="projects" data-dir="ne"></div>
+  <div class="rh rh-nw" data-wid="projects" data-dir="nw"></div>
+</div>
+
+<!-- RESUME -->
+<div class="xwin active" id="xwin-resume" style="width:560px;height:500px;">
+  <div class="xbar" data-wid="resume">
+    <div class="xbar-ico"><img src="icons/notepad.png" alt=""></div>
+    <div class="xbar-title">Resume.doc — [Read-Only]</div>
+    <div class="xbar-btns">
+      <div class="xbtn xbtn-min" onclick="minWin('resume')">_</div>
+      <div class="xbtn xbtn-max" onclick="maxWin('resume')" id="maxBtn-resume">□</div>
+      <div class="xbtn xbtn-cls" onclick="closeWin('resume')">✕</div>
+    </div>
+  </div>
+  <div class="xmenu">
+    <span class="xmitem">File</span><span class="xmitem">Edit</span>
+    <span class="xmitem">View</span><span class="xmitem">Format</span>
+    <span class="xmitem">Help</span>
+  </div>
+  <div class="xcontent">
+    <div class="res-wrap">
+      <div class="res-name">Aiden DeVere</div>
+      <div class="res-contact">Phoenix, AZ &nbsp;·&nbsp; linkedin.com/in/aiden-devere &nbsp;·&nbsp; aidendevere.com</div>
+
+      <div class="res-sec">
+        <div class="res-sec-title">EXPERIENCE</div>
+        <div class="res-item">
+          <div class="res-hdr"><span>Marketing Director</span><span>2025 – 2026</span></div>
+          <div class="res-sub">Telaré Law · Kennewick, WA</div>
+          <ul>
+            <li>Rebuilt the full media mix — cut negative-ROI channels, generated $200K+ projected revenue at 20x ROAS</li>
+            <li>Spearheaded end-to-end website redesign, improving UX, SEO architecture, and lead-capture conversion</li>
+            <li>Owned go-to-market digital strategy for a new firm location: local SEO, Google Business Profile, geo-targeted PPC</li>
+            <li>Leveraged AI tools (ChatGPT, Claude) to accelerate ad copy testing and content production</li>
+          </ul>
+        </div>
+        <div class="res-item">
+          <div class="res-hdr"><span>Social Media Marketing Director</span><span>2024 – 2025</span></div>
+          <div class="res-sub">Telaré Law · Kennewick, WA</div>
+          <ul>
+            <li>Promoted from Coordinator; took full ownership of paid and organic social strategy across all platforms</li>
+            <li>Assisted in firm-wide CRM buildout using Salesforce / Litify and Lead Docket</li>
+            <li>Expanded UTM tracking and CallRail infrastructure for full-funnel attribution</li>
+          </ul>
+        </div>
+        <div class="res-item">
+          <div class="res-hdr"><span>Social Media Marketing Coordinator</span><span>2022 – 2024</span></div>
+          <div class="res-sub">Telaré Law · Kennewick, WA</div>
+          <ul>
+            <li>Scaled firm social media brand pages through consistent content calendars and paid amplification</li>
+            <li>Built UTM tracking systems and CallRail infrastructure to measure and attribute leads accurately</li>
+          </ul>
+        </div>
+        <div class="res-item">
+          <div class="res-hdr"><span>Operations Intern</span><span>2023 – 2024</span></div>
+          <div class="res-sub">Oakland Athletics — Spring Training · Surprise, AZ</div>
+          <ul>
+            <li>Supported game day operations for MLB Spring Training, coordinating logistics across stadium departments</li>
+            <li>Assisted corporate partnerships team with sponsor activation management and deliverable fulfillment</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="res-sec">
+        <div class="res-sec-title">CORE SKILLS</div>
+        <div class="skills-wrap">
+          <span class="skill">Google Ads</span><span class="skill">Meta Ads</span>
+          <span class="skill">UTM Architecture</span><span class="skill">SEO / Local SEO</span>
+          <span class="skill">Salesforce / Litify</span><span class="skill">CallRail</span>
+          <span class="skill">HubSpot</span><span class="skill">Google Analytics 4</span>
+          <span class="skill">Paid Social</span><span class="skill">Content Strategy</span>
+          <span class="skill">Adobe Creative Suite</span><span class="skill">Canva</span>
+          <span class="skill">A/B Testing</span><span class="skill">Email Marketing</span>
+          <span class="skill">Prompt Engineering</span><span class="skill">Looker Studio</span>
+        </div>
+      </div>
+
+      <div class="res-sec">
+        <div class="res-sec-title">EDUCATION</div>
+        <div class="res-item">
+          <div class="res-hdr"><span>B.A. Business Marketing &amp; Sales</span><span>2021 – 2024</span></div>
+          <div class="res-sub">Grand Canyon University · Phoenix, AZ · Dean's List 2021</div>
+        </div>
+      </div>
+
+      <div class="res-sec">
+        <div class="res-sec-title">AWARDS</div>
+        <div class="res-item">
+          <ul>
+            <li>GCU Dean's List — Grand Canyon University, 2021</li>
+            <li>Junior Achievement Titan Business — 1st Place, Regional Business Simulation, 2019</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="xstatus">
+    <span class="xstat-item">Page 1 of 1</span>
+    <span class="xstat-item">100%</span>
+    <span class="xstat-item">English (US)</span>
+  </div>
+  <div class="rh rh-se" data-wid="resume" data-dir="se"></div>
+  <div class="rh rh-s"  data-wid="resume" data-dir="s"></div>
+  <div class="rh rh-e"  data-wid="resume" data-dir="e"></div>
+  <div class="rh rh-w"  data-wid="resume" data-dir="w"></div>
+  <div class="rh rh-n"  data-wid="resume" data-dir="n"></div>
+  <div class="rh rh-sw" data-wid="resume" data-dir="sw"></div>
+  <div class="rh rh-ne" data-wid="resume" data-dir="ne"></div>
+  <div class="rh rh-nw" data-wid="resume" data-dir="nw"></div>
+</div>
+
+<!-- ABOUT ME -->
+<div class="xwin active" id="xwin-about" style="width:480px;height:420px;">
+  <div class="xbar" data-wid="about">
+    <div class="xbar-ico"><img src="icons/user-accounts.png" alt=""></div>
+    <div class="xbar-title">About Me</div>
+    <div class="xbar-btns">
+      <div class="xbtn xbtn-min" onclick="minWin('about')">_</div>
+      <div class="xbtn xbtn-max" onclick="maxWin('about')" id="maxBtn-about">□</div>
+      <div class="xbtn xbtn-cls" onclick="closeWin('about')">✕</div>
+    </div>
+  </div>
+  <div class="xmenu">
+    <span class="xmitem">File</span><span class="xmitem">Edit</span><span class="xmitem">Help</span>
+  </div>
+  <div class="xcontent">
+    <div class="about-wrap">
+      <div class="about-head">
+        <div class="about-ava">👨‍💻</div>
+        <div class="about-intro">
+          <h2>Aiden DeVere</h2>
+          <div class="about-role">Digital Marketing Manager &amp; Creative Designer · Phoenix, AZ</div>
+          <p>Performance marketer and creative director who turns underperforming channels into high-ROI revenue engines.</p>
+        </div>
+      </div>
+      <div class="about-sec">
+        <h3>Who Am I?</h3>
+        <p>I'm Aiden DeVere — a digital marketing manager and creative designer based in Phoenix, AZ. I specialize in full-funnel campaign strategy, paid media, CRM buildout, and brand-level creative. Most recently at Telaré Law, I rebuilt their entire marketing mix from the ground up, generating $200K+ in projected revenue at 20x ROAS.</p>
+      </div>
+      <div class="about-sec">
+        <h3>What I Do</h3>
+        <p>Paid search &amp; social, UTM architecture, SEO, CRM buildout (Salesforce, Lead Docket, CallRail), content strategy, brand design, video production, apparel, album artwork — I move between analytics and creative depending on what the work needs.</p>
+      </div>
+      <div class="about-sec">
+        <h3>Get In Touch</h3>
+        <p>💼 <a href="https://linkedin.com/in/aiden-devere" target="_blank" style="color:#316AC5;">linkedin.com/in/aiden-devere</a> &nbsp;·&nbsp; 🌐 <a href="https://aidendevere.com" target="_blank" style="color:#316AC5;">aidendevere.com</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="xstatus"><span class="xstat-item">Ready</span></div>
+  <div class="rh rh-se" data-wid="about" data-dir="se"></div>
+  <div class="rh rh-s"  data-wid="about" data-dir="s"></div>
+  <div class="rh rh-e"  data-wid="about" data-dir="e"></div>
+  <div class="rh rh-w"  data-wid="about" data-dir="w"></div>
+  <div class="rh rh-n"  data-wid="about" data-dir="n"></div>
+  <div class="rh rh-sw" data-wid="about" data-dir="sw"></div>
+  <div class="rh rh-ne" data-wid="about" data-dir="ne"></div>
+  <div class="rh rh-nw" data-wid="about" data-dir="nw"></div>
+</div>
+
+<!-- CONTACT -->
+<div class="xwin active" id="xwin-contact" style="width:400px;height:370px;">
+  <div class="xbar" data-wid="contact">
+    <div class="xbar-ico"><img src="icons/email.png" alt=""></div>
+    <div class="xbar-title">Contact — New Message</div>
+    <div class="xbar-btns">
+      <div class="xbtn xbtn-min" onclick="minWin('contact')">_</div>
+      <div class="xbtn xbtn-max" onclick="maxWin('contact')" id="maxBtn-contact">□</div>
+      <div class="xbtn xbtn-cls" onclick="closeWin('contact')">✕</div>
+    </div>
+  </div>
+  <div class="xmenu">
+    <span class="xmitem">File</span><span class="xmitem">Edit</span><span class="xmitem">Help</span>
+  </div>
+  <div class="xcontent">
+    <div class="contact-wrap">
+      <h2><img src="icons/email.png" alt="" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:6px;">Send me a message</h2>
+      <div class="fg"><label>Name:</label><input type="text" id="cName" placeholder="Your name"></div>
+      <div class="fg"><label>Your Email:</label><input type="email" id="cEmail" placeholder="your@email.com"></div>
+      <div class="fg"><label>Subject:</label><input type="text" id="cSubj" placeholder="What's this about?"></div>
+      <div class="fg"><label>Message:</label><textarea id="cMsg" placeholder="Write your message here..."></textarea></div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="xp-btn-form" onclick="sendContact()"><img src="icons/email.png" alt="" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:4px;"> Send</button>
+        <button class="xp-btn-form" onclick="clearContact()"><img src="icons/recycle-bin-empty.png" alt="" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:4px;"> Clear</button>
+      </div>
+    </div>
+  </div>
+  <div class="xstatus"><span class="xstat-item" id="cStatus">Ready to send</span></div>
+  <div class="rh rh-se" data-wid="contact" data-dir="se"></div>
+  <div class="rh rh-s"  data-wid="contact" data-dir="s"></div>
+  <div class="rh rh-e"  data-wid="contact" data-dir="e"></div>
+  <div class="rh rh-w"  data-wid="contact" data-dir="w"></div>
+  <div class="rh rh-n"  data-wid="contact" data-dir="n"></div>
+  <div class="rh rh-sw" data-wid="contact" data-dir="sw"></div>
+  <div class="rh rh-ne" data-wid="contact" data-dir="ne"></div>
+  <div class="rh rh-nw" data-wid="contact" data-dir="nw"></div>
+</div>
+
+<!-- ════════════ PROJECT GALLERY WINDOW (dynamically populated) ════════════ -->
+<div class="xwin" id="xwin-gallery" style="width:680px;height:410px;">
+  <div class="xbar" data-wid="gallery">
+    <div class="xbar-ico"><img src="icons/my-pictures.png" alt="" id="galleryBarIco"></div>
+    <div class="xbar-title" id="galleryTitle">Project</div>
+    <div class="xbar-btns">
+      <div class="xbtn xbtn-min" onclick="minWin('gallery')">_</div>
+      <div class="xbtn xbtn-max" onclick="maxWin('gallery')" id="maxBtn-gallery">□</div>
+      <div class="xbtn xbtn-cls" onclick="closeWin('gallery')">✕</div>
+    </div>
+  </div>
+  <div class="xmenu">
+    <span class="xmitem">File</span><span class="xmitem">Edit</span>
+    <span class="xmitem">View</span><span class="xmitem">Help</span>
+  </div>
+  <div class="xcontent" style="padding:0;overflow:hidden;">
+    <div class="gallery-wrap">
+      <div class="gallery-main" id="galleryMain">
+        <img id="galleryImg" src="" alt="">
+        <button class="gallery-nav gallery-prev" onclick="galleryStep(-1)">&#8249;</button>
+        <button class="gallery-nav gallery-next" onclick="galleryStep(1)">&#8250;</button>
+        <div class="gallery-counter" id="galleryCounter">1 / 1</div>
+      </div>
+      <div class="gallery-strip" id="galleryStrip"></div>
+    </div>
+  </div>
+  <div class="xstatus">
+    <span class="xstat-item" id="galleryStat">Ready</span>
+  </div>
+  <div class="rh rh-se" data-wid="gallery" data-dir="se"></div>
+  <div class="rh rh-s"  data-wid="gallery" data-dir="s"></div>
+  <div class="rh rh-e"  data-wid="gallery" data-dir="e"></div>
+  <div class="rh rh-w"  data-wid="gallery" data-dir="w"></div>
+  <div class="rh rh-n"  data-wid="gallery" data-dir="n"></div>
+  <div class="rh rh-sw" data-wid="gallery" data-dir="sw"></div>
+  <div class="rh rh-ne" data-wid="gallery" data-dir="ne"></div>
+  <div class="rh rh-nw" data-wid="gallery" data-dir="nw"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════ */
+let Z = 110;
+const wState = {}; // {id:{maximized,savedLeft,savedTop,savedW,savedH}}
+const wOpen  = {}; // {id:bool}
+
+/* ═══════════════════════════════════════════════════
+   STARTUP — straight to desktop
+   ═══════════════════════════════════════════════════ */
+window.addEventListener('load', () => {
+  const desk = document.getElementById('desktop');
+  desk.classList.add('show');
+  const tb = document.getElementById('taskbar');
+  tb.style.opacity = '1';
+  playXPSound();
+  startClock();
+  initWindowPositions();
+});
+
+/* ═══════════════════════════════════════════════════
+   XP STARTUP SOUND (Web Audio API synthesis)
+   ═══════════════════════════════════════════════════ */
+function playXPSound() {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const ctx = new AC();
+
+    // Reverb impulse (simple noise-based)
+    function makeReverb(ctx, dur=1.5, decay=2) {
+      const sr = ctx.sampleRate;
+      const len = sr * dur;
+      const buf = ctx.createBuffer(2, len, sr);
+      for (let ch = 0; ch < 2; ch++) {
+        const d = buf.getChannelData(ch);
+        for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1)*Math.pow(1-i/len, decay);
+      }
+      const conv = ctx.createConvolver();
+      conv.buffer = buf;
+      return conv;
+    }
+
+    const reverb = makeReverb(ctx);
+    const master = ctx.createGain();
+    master.gain.value = 0.7;
+    reverb.connect(master);
+    master.connect(ctx.destination);
+
+    function tone(freq, t, dur, vol=0.18, wave='sine') {
+      const osc = ctx.createOscillator();
+      const g   = ctx.createGain();
+      osc.type = wave;
+      osc.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vol, t + 0.04);
+      g.gain.setValueAtTime(vol, t + dur * 0.65);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(g);
+      // Dry signal
+      g.connect(master);
+      // Wet (reverb)
+      g.connect(reverb);
+      osc.start(t);
+      osc.stop(t + dur + 0.05);
+    }
+
+    function chord(freqs, t, dur, vol=0.11) {
+      freqs.forEach(f => {
+        tone(f, t, dur, vol, 'sine');
+        tone(f*2, t, dur*0.8, vol*0.12, 'sine'); // octave shimmer
+      });
+    }
+
+    const now = ctx.currentTime + 0.2;
+
+    // ── Soft intro chord ──
+    chord([261.63, 329.63, 392.00], now, 0.55, 0.08);
+
+    // ── Rising chord 1 ──
+    chord([329.63, 415.30, 523.25], now + 0.48, 0.65, 0.10);
+
+    // ── Rising chord 2 ──
+    chord([392.00, 493.88, 587.33], now + 1.05, 0.65, 0.10);
+
+    // ── Final triumphant chord ──
+    chord([523.25, 659.25, 783.99, 1046.50], now + 1.70, 2.2, 0.13);
+
+    // Piano-attack layer on final chord
+    [523.25, 659.25, 783.99].forEach((f, i) => {
+      tone(f, now + 1.70 + i*0.02, 2.4, 0.18, 'triangle');
+    });
+
+  } catch(e) {
+    // Silently skip if AudioContext unavailable
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   CLOCK
+   ═══════════════════════════════════════════════════ */
+function startClock() {
+  function tick() {
+    const d = new Date();
+    const h = d.getHours()%12||12;
+    const m = String(d.getMinutes()).padStart(2,'0');
+    const ap = d.getHours()>=12?'PM':'AM';
+    document.getElementById('clkTime').textContent = `${h}:${m} ${ap}`;
+    document.getElementById('clkDate').textContent =
+      `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ═══════════════════════════════════════════════════
+   WINDOW POSITIONING — responsive defaults
+   ═══════════════════════════════════════════════════ */
+function initWindowPositions() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight - 40; // minus taskbar
+  const mobile = vw < 600;
+
+  const defs = {
+    mycomp:   { w:500, h:360 },
+    projects: { w:580, h:400 },
+    resume:   { w:560, h:400 },
+    about:    { w:480, h:390 },
+    contact:  { w:400, h:360 },
+    gallery:  { w:680, h:410 },
+  };
+
+  let stagger = 0;
+  for (const [id, sz] of Object.entries(defs)) {
+    const win = document.getElementById('xwin-'+id);
+    if (!win) continue;
+    let w = mobile ? Math.min(sz.w, vw-10) : sz.w;
+    let h = mobile ? Math.min(sz.h, vh-10) : sz.h;
+    let left = mobile ? 0 : Math.round((vw - w) / 2) + stagger*18;
+    let top  = mobile ? 0 : Math.round((vh - h) / 2) + stagger*18 - 30;
+    left = Math.max(0, left);
+    top  = Math.max(0, top);
+    win.style.width  = w + 'px';
+    win.style.height = h + 'px';
+    win.style.left   = left + 'px';
+    win.style.top    = top  + 'px';
+    stagger++;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   WINDOW OPEN / CLOSE / MIN / MAX
+   ═══════════════════════════════════════════════════ */
+const WIN_META = {
+  mycomp:   { title:'My Computer',   ico:'icons/my-computer.png' },
+  projects: { title:'My Projects',   ico:'icons/folder.png' },
+  resume:   { title:'Resume',         ico:'icons/notepad.png' },
+  about:    { title:'About Me',       ico:'icons/user-accounts.png' },
+  contact:  { title:'Contact',        ico:'icons/email.png' },
+  gallery:  { title:'Gallery',        ico:'icons/my-pictures.png' },
+};
+
+/* ── PROJECT DATA ─────────────────────────────────────── */
+const PROJECTS = {
+  'oakland-as':      { title:"Oakland A's",       images:[
+    {f:'1.jpeg'},{f:'2.png'},{f:'3.jpeg'},{f:'4.jpg'}
+  ]},
+  'telare-law':      { title:'Telare Law Videos', images:[
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'}
+  ]},
+  'sebc':            { title:'SEBC',              images:[
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},
+    {f:'6.jpg'},{f:'7.jpg'},{f:'8.png'},{f:'9.jpg'}
+  ]},
+  'social-posts':    { title:'Social Post Concepts', images:[
+    {f:'1.png'},{f:'2.jpg'},{f:'3.png'},{f:'4.jpg'},{f:'5.jpg'},
+    {f:'6.png'},{f:'7.png'},{f:'8.jpg'},{f:'9.jpg'}
+  ]},
+  'gcu':             { title:'GCU',               images:[
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'}
+  ]},
+  'clothing-design': { title:'Clothing Design',   images:[
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.png'},
+    {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.png'}
+  ]},
+  'posters':         { title:'Posters',           images:[
+    {f:'1.png'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},{f:'6.png'}
+  ]},
+  'album-artwork':   { title:'Album Artwork',     images:[
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.png'},{f:'4.jpg'},{f:'5.jpg'},
+    {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.jpg'}
+  ]},
+};
+
+let galleryProject = null;
+let galleryIndex   = 0;
+
+function openProject(id) {
+  const proj = PROJECTS[id];
+  if (!proj) return;
+  galleryProject = id;
+  galleryIndex   = 0;
+
+  // Update title bar
+  document.getElementById('galleryTitle').textContent = proj.title;
+
+  // Build thumbnail strip
+  const strip = document.getElementById('galleryStrip');
+  strip.innerHTML = '';
+  proj.images.forEach((img, i) => {
+    const th = document.createElement('img');
+    th.className = 'gthumb' + (i === 0 ? ' active' : '');
+    th.src = `projects/${id}/${img.f}`;
+    th.alt = `Image ${i+1}`;
+    th.onclick = () => galleryGoto(i);
+    strip.appendChild(th);
+  });
+
+  // Size and center gallery window to fit viewport
+  const gwin = document.getElementById('xwin-gallery');
+  const vw = window.innerWidth;
+  const vh = window.innerHeight - 40;
+  const gw = Math.min(680, vw - 10);
+  const gh = Math.min(410, vh - 5);
+  gwin.style.width  = gw + 'px';
+  gwin.style.height = gh + 'px';
+  gwin.style.left   = Math.max(5, Math.round((vw - gw) / 2)) + 'px';
+  gwin.style.top    = Math.max(5, Math.round((vh - gh) / 2) - 10) + 'px';
+
+  galleryGoto(0);
+  openWin('gallery');
+  document.getElementById('galleryStat').textContent = proj.title + ' — ' + proj.images.length + ' images';
+}
+
+function galleryGoto(idx) {
+  const proj = PROJECTS[galleryProject];
+  if (!proj) return;
+  galleryIndex = Math.max(0, Math.min(idx, proj.images.length - 1));
+
+  // Main image
+  const img = document.getElementById('galleryImg');
+  img.src = `projects/${galleryProject}/${proj.images[galleryIndex].f}`;
+
+  // Counter
+  document.getElementById('galleryCounter').textContent =
+    (galleryIndex + 1) + ' / ' + proj.images.length;
+
+  // Thumbnails
+  document.querySelectorAll('.gthumb').forEach((th, i) => {
+    th.classList.toggle('active', i === galleryIndex);
+  });
+
+  // Scroll active thumb into view
+  const strip = document.getElementById('galleryStrip');
+  const active = strip.children[galleryIndex];
+  if (active) active.scrollIntoView({ behavior:'smooth', inline:'nearest', block:'nearest' });
+}
+
+function galleryStep(dir) {
+  const proj = PROJECTS[galleryProject];
+  if (!proj) return;
+  galleryGoto((galleryIndex + dir + proj.images.length) % proj.images.length);
+}
+
+/* Keyboard arrows for gallery */
+document.addEventListener('keydown', e => {
+  const gwin = document.getElementById('xwin-gallery');
+  if (!gwin || !gwin.classList.contains('open') || !gwin.classList.contains('active')) return;
+  if (e.key === 'ArrowRight') galleryStep(1);
+  if (e.key === 'ArrowLeft')  galleryStep(-1);
+});
+
+function openWin(id) {
+  closeStart();
+  const win = document.getElementById('xwin-'+id);
+  if (!win) return;
+
+  if (win.classList.contains('open')) {
+    if (win.dataset.minimized === '1') {
+      // restore
+      win.dataset.minimized = '0';
+      win.style.display = 'flex';
+      win.classList.add('winrst-anim');
+      setTimeout(() => win.classList.remove('winrst-anim'), 220);
+      tbSetActive(id, true);
+    }
+    bringFront(id);
+    return;
+  }
+
+  win.classList.add('open');
+  win.classList.add('winrst-anim');
+  setTimeout(() => win.classList.remove('winrst-anim'), 220);
+  bringFront(id);
+  addTbBtn(id);
+  wOpen[id] = true;
+}
+
+function closeWin(id) {
+  const win = document.getElementById('xwin-'+id);
+  if (!win) return;
+  win.classList.remove('open','active');
+  win.style.display = '';
+  win.dataset.minimized = '0';
+  removeTbBtn(id);
+  delete wOpen[id];
+  setActive(null);
+}
+
+function minWin(id) {
+  const win = document.getElementById('xwin-'+id);
+  if (!win) return;
+  win.classList.add('winmin-anim');
+  setTimeout(() => {
+    win.classList.remove('winmin-anim');
+    win.style.display = 'none';
+    win.dataset.minimized = '1';
+    win.classList.remove('active');
+  }, 210);
+  tbSetActive(id, false);
+  setActive(null);
+}
+
+function maxWin(id) {
+  const win = document.getElementById('xwin-'+id);
+  const btn = document.getElementById('maxBtn-'+id);
+  if (!win) return;
+
+  if (wState[id] && wState[id].maximized) {
+    // restore
+    const s = wState[id];
+    win.style.left   = s.l;
+    win.style.top    = s.t;
+    win.style.width  = s.w;
+    win.style.height = s.h;
+    wState[id].maximized = false;
+    if (btn) btn.textContent = '□';
+  } else {
+    wState[id] = wState[id]||{};
+    Object.assign(wState[id], {
+      l: win.style.left, t: win.style.top,
+      w: win.style.width, h: win.style.height,
+      maximized: true
+    });
+    win.style.left   = '0';
+    win.style.top    = '0';
+    win.style.width  = '100vw';
+    win.style.height = 'calc(100vh - 40px)';
+    if (btn) btn.textContent = '❐';
+  }
+  bringFront(id);
+}
+
+function bringFront(id) {
+  Z++;
+  const win = document.getElementById('xwin-'+id);
+  if (win) win.style.zIndex = Z;
+  setActive(id);
+}
+
+function setActive(id) {
+  document.querySelectorAll('.xwin').forEach(w => w.classList.remove('active'));
+  document.querySelectorAll('.tbBtn').forEach(b => b.classList.remove('on'));
+  if (id) {
+    const win = document.getElementById('xwin-'+id);
+    if (win) win.classList.add('active');
+    const btn = document.getElementById('tb-'+id);
+    if (btn) btn.classList.add('on');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   TASKBAR BUTTONS
+   ═══════════════════════════════════════════════════ */
+function addTbBtn(id) {
+  if (document.getElementById('tb-'+id)) return;
+  const m = WIN_META[id]||{title:id,ico:'icons/notepad.png'};
+  const btn = document.createElement('div');
+  btn.className = 'tbBtn on';
+  btn.id = 'tb-'+id;
+  btn.innerHTML = `<span class="tbBtn-ico"><img src="${m.ico}" alt="" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"></span><span>${m.title}</span>`;
+  btn.onclick = () => {
+    const win = document.getElementById('xwin-'+id);
+    if (!win) return;
+    if (win.dataset.minimized === '1') { openWin(id); }
+    else if (win.classList.contains('active')) { minWin(id); }
+    else { bringFront(id); }
+  };
+  document.getElementById('tbWindows').appendChild(btn);
+}
+
+function removeTbBtn(id) {
+  const b = document.getElementById('tb-'+id);
+  if (b) b.remove();
+}
+
+function tbSetActive(id, active) {
+  const b = document.getElementById('tb-'+id);
+  if (b) b.classList.toggle('on', active);
+}
+
+/* ═══════════════════════════════════════════════════
+   START MENU
+   ═══════════════════════════════════════════════════ */
+function toggleStart() {
+  document.getElementById('startMenu').classList.toggle('open');
+}
+function closeStart() {
+  document.getElementById('startMenu').classList.remove('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#startMenu') && !e.target.closest('#startBtn')) closeStart();
+});
+
+/* ═══════════════════════════════════════════════════
+   DRAG & RESIZE
+   ═══════════════════════════════════════════════════ */
+let DS = null; // drag state
+
+// Mouse drag
+document.addEventListener('mousedown', onPointerDown);
+document.addEventListener('mousemove', onPointerMove);
+document.addEventListener('mouseup',   () => { DS = null; });
+
+// Touch drag
+document.addEventListener('touchstart', e => {
+  onPointerDown(e.touches[0], e);
+}, { passive: false });
+document.addEventListener('touchmove', e => {
+  if (DS) { e.preventDefault(); onPointerMove(e.touches[0]); }
+}, { passive: false });
+document.addEventListener('touchend', () => { DS = null; });
+
+function onPointerDown(e, rawEvt) {
+  const titlebar = e.target && e.target.closest && e.target.closest('.xbar');
+  const handle   = e.target && e.target.classList && e.target.classList.contains('rh');
+
+  if (titlebar) {
+    if (e.target.classList && e.target.classList.contains('xbtn')) return;
+    const id = titlebar.getAttribute('data-wid');
+    const win = document.getElementById('xwin-'+id);
+    if (!win) return;
+    if (wState[id] && wState[id].maximized) return;
+    bringFront(id);
+    const r = win.getBoundingClientRect();
+    DS = { type:'drag', id, sx:e.clientX, sy:e.clientY, ol:r.left, ot:r.top };
+    if (rawEvt) rawEvt.preventDefault();
+  } else if (handle) {
+    const id  = handle.getAttribute('data-wid');
+    const dir = handle.getAttribute('data-dir');
+    const win = document.getElementById('xwin-'+id);
+    if (!win) return;
+    if (wState[id] && wState[id].maximized) return;
+    bringFront(id);
+    const r = win.getBoundingClientRect();
+    DS = { type:'resize', id, dir, sx:e.clientX, sy:e.clientY, ol:r.left, ot:r.top, ow:r.width, oh:r.height };
+    if (rawEvt) rawEvt.preventDefault();
+  } else {
+    // Click on window body → bring to front
+    const win = e.target && e.target.closest && e.target.closest('.xwin');
+    if (win) {
+      const id = win.id.replace('xwin-','');
+      bringFront(id);
+    }
+  }
+}
+
+function onPointerMove(e) {
+  if (!DS) return;
+  const dx = e.clientX - DS.sx;
+  const dy = e.clientY - DS.sy;
+  const win = document.getElementById('xwin-'+DS.id);
+  if (!win) return;
+
+  if (DS.type === 'drag') {
+    let nl = DS.ol + dx;
+    let nt = DS.ot + dy;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    nl = Math.max(-(win.offsetWidth-80), Math.min(vw-80, nl));
+    nt = Math.max(0, Math.min(vh-60, nt));
+    win.style.left = nl + 'px';
+    win.style.top  = nt + 'px';
+  } else {
+    const MW=220, MH=160;
+    const {dir,ol,ot,ow,oh} = DS;
+    let nl=ol, nt=ot, nw=ow, nh=oh;
+
+    if (dir.includes('e')) nw = Math.max(MW, ow+dx);
+    if (dir.includes('s')) nh = Math.max(MH, oh+dy);
+    if (dir.includes('w')) { nw = Math.max(MW, ow-dx); nl = ol+(ow-nw); }
+    if (dir.includes('n')) { nh = Math.max(MH, oh-dy); nt = ot+(oh-nh); }
+
+    win.style.left   = nl + 'px';
+    win.style.top    = nt + 'px';
+    win.style.width  = nw + 'px';
+    win.style.height = nh + 'px';
+  }
+}
+
+// Double-click title bar → maximize
+document.querySelectorAll('.xbar').forEach(bar => {
+  bar.addEventListener('dblclick', e => {
+    if (e.target.classList.contains('xbtn')) return;
+    maxWin(bar.getAttribute('data-wid'));
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   CONTEXT MENU
+   ═══════════════════════════════════════════════════ */
+const ctx = document.getElementById('ctxMenu');
+
+document.getElementById('desktop').addEventListener('contextmenu', e => {
+  e.preventDefault();
+  let x = e.clientX, y = e.clientY;
+  const cw = ctx.offsetWidth||172, ch = ctx.offsetHeight||160;
+  if (x+cw > window.innerWidth)  x = window.innerWidth  - cw - 4;
+  if (y+ch > window.innerHeight) y = window.innerHeight - ch - 4;
+  ctx.style.left    = x+'px';
+  ctx.style.top     = y+'px';
+  ctx.style.display = 'block';
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#ctxMenu')) ctx.style.display='none';
+});
+
+document.querySelectorAll('.ctx-item').forEach(item => {
+  item.addEventListener('click', () => {
+    ctx.style.display = 'none';
+    if (item.textContent.trim() === 'Refresh') {
+      const d = document.getElementById('desktop');
+      d.style.transition='opacity .1s';
+      d.style.opacity='.6';
+      setTimeout(()=>d.style.opacity='1',120);
+    }
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   DESKTOP ICON SELECTION
+   ═══════════════════════════════════════════════════ */
+document.querySelectorAll('.dicon').forEach(ico => {
+  ico.addEventListener('click', e => {
+    e.stopPropagation();
+    document.querySelectorAll('.dicon').forEach(i=>i.classList.remove('sel'));
+    ico.classList.add('sel');
+  });
+});
+document.getElementById('desktop').addEventListener('click', e => {
+  if (!e.target.closest('.dicon')) {
+    document.querySelectorAll('.dicon').forEach(i=>i.classList.remove('sel'));
+  }
+});
+
+/* ═══════════════════════════════════════════════════
+   CONTACT FORM
+   ═══════════════════════════════════════════════════ */
+function sendContact() {
+  const n = document.getElementById('cName').value.trim();
+  const em = document.getElementById('cEmail').value.trim();
+  const msg = document.getElementById('cMsg').value.trim();
+  const st = document.getElementById('cStatus');
+  if (!n||!em||!msg) { st.textContent='⚠ Please fill Name, Email and Message.'; return; }
+  st.textContent='✓ Message sent! Thank you, '+n+'.';
+  ['cName','cEmail','cSubj','cMsg'].forEach(id=>document.getElementById(id).value='');
+}
+function clearContact() {
+  ['cName','cEmail','cSubj','cMsg'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cStatus').textContent='Ready to send';
+}
+
+/* ═══════════════════════════════════════════════════
+   TASKBAR INIT (hidden until desktop visible)
+   ═══════════════════════════════════════════════════ */
+// taskbar always visible
+
+/* ═══════════════════════════════════════════════════
+   WINDOW RESIZE → reposition windows
+   ═══════════════════════════════════════════════════ */
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.xwin').forEach(win => {
+    if (!win.classList.contains('open')) return;
+    const r = win.getBoundingClientRect();
+    const vw = window.innerWidth, vh = window.innerHeight-40;
+    if (r.right > vw)  win.style.left = Math.max(0, vw - r.width)  + 'px';
+    if (r.bottom > vh) win.style.top  = Math.max(0, vh - r.height) + 'px';
+  });
+});
+</script>
+</body>
+</html>

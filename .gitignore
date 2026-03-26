@@ -1,0 +1,14 @@
+# Claude Code session data
+.claude/
+
+# Local dev server (not needed for deployment)
+# serve.js is kept for local preview
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+npm-debug.log*
