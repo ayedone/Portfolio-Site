@@ -1147,7 +1147,7 @@ document.addEventListener('touchend', () => { DS = null; });
 
 function onPointerDown(e, rawEvt) {
   const titlebar = e.target && e.target.closest && e.target.closest('.xbar');
-  const handle   = e.target && e.target.classList && e.target.classList.contains('rh');
+  const handle   = (e.target && e.target.classList && e.target.classList.contains('rh')) ? e.target : null;
 
   if (titlebar) {
     if (e.target.classList && e.target.classList.contains('xbtn')) return;
