@@ -24,7 +24,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
 #desktop{position:fixed;inset:0;bottom:40px;overflow:hidden;}
 #desktop.show{opacity:1;}
 #wallpaper{position:absolute;inset:0;}
-#wallpaper svg{width:100%;height:100%;}
+#wallpaper img{width:100%;height:100%;object-fit:cover;display:block;}
 
 /* ── DESKTOP ICONS ───────────────────────────────────── */
 .icon-grid{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:6px;z-index:5;}
@@ -234,72 +234,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
 <div id="desktop">
   <!-- Bliss Wallpaper -->
   <div id="wallpaper">
-    <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#3A7FC4"/>
-          <stop offset="35%" stop-color="#5BA8E0"/>
-          <stop offset="100%" stop-color="#97D4F5"/>
-        </linearGradient>
-        <linearGradient id="hillG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#5DB847"/>
-          <stop offset="100%" stop-color="#3A8828"/>
-        </linearGradient>
-        <linearGradient id="hillG2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#4CAD38"/>
-          <stop offset="100%" stop-color="#2E7018"/>
-        </linearGradient>
-        <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="8"/>
-        </filter>
-        <filter id="blur2" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="4"/>
-        </filter>
-        <radialGradient id="sunG" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="rgba(255,255,220,.25)"/>
-          <stop offset="100%" stop-color="rgba(255,255,220,0)"/>
-        </radialGradient>
-      </defs>
-      <!-- Sky -->
-      <rect width="1920" height="1080" fill="url(#skyG)"/>
-      <!-- Sun glow -->
-      <ellipse cx="1450" cy="220" rx="200" ry="140" fill="url(#sunG)" filter="url(#blur)"/>
-      <!-- Clouds cluster 1 -->
-      <g filter="url(#blur2)">
-        <ellipse cx="280" cy="185" rx="140" ry="58" fill="rgba(255,255,255,.92)"/>
-        <ellipse cx="380" cy="162" rx="110" ry="50" fill="rgba(255,255,255,.95)"/>
-        <ellipse cx="230" cy="205" rx="88" ry="44" fill="rgba(255,255,255,.9)"/>
-        <ellipse cx="460" cy="188" rx="75" ry="40" fill="rgba(255,255,255,.85)"/>
-      </g>
-      <!-- Clouds cluster 2 -->
-      <g filter="url(#blur2)">
-        <ellipse cx="880" cy="150" rx="155" ry="60" fill="rgba(255,255,255,.88)"/>
-        <ellipse cx="1010" cy="128" rx="120" ry="52" fill="rgba(255,255,255,.9)"/>
-        <ellipse cx="820" cy="170" rx="95" ry="46" fill="rgba(255,255,255,.85)"/>
-      </g>
-      <!-- Clouds cluster 3 -->
-      <g filter="url(#blur2)">
-        <ellipse cx="1540" cy="210" rx="130" ry="54" fill="rgba(255,255,255,.82)"/>
-        <ellipse cx="1660" cy="185" rx="105" ry="46" fill="rgba(255,255,255,.82)"/>
-        <ellipse cx="1480" cy="228" rx="80" ry="38" fill="rgba(255,255,255,.78)"/>
-      </g>
-      <!-- Distant cloud wisps -->
-      <g opacity="0.55" filter="url(#blur2)">
-        <ellipse cx="650" cy="270" rx="90" ry="32" fill="white"/>
-        <ellipse cx="1220" cy="245" rx="100" ry="35" fill="white"/>
-        <ellipse cx="1780" cy="300" rx="80" ry="30" fill="white"/>
-      </g>
-      <!-- Far background hills -->
-      <path d="M0,700 Q160,590 360,650 Q560,590 760,660 Q960,590 1160,650 Q1360,570 1560,630 Q1740,590 1920,610 L1920,1080 L0,1080Z" fill="#3A7A25" opacity="0.65"/>
-      <!-- Mid-ground hill -->
-      <path d="M0,760 Q200,610 430,700 Q680,590 920,730 Q1160,600 1420,690 Q1660,590 1920,650 L1920,1080 L0,1080Z" fill="url(#hillG2)"/>
-      <!-- Main foreground hill (Bliss) -->
-      <path d="M0,800 Q240,610 500,750 Q760,600 980,770 Q1200,610 1460,730 Q1680,620 1920,680 L1920,1080 L0,1080Z" fill="url(#hillG)"/>
-      <!-- Highlight sheen on foreground hill -->
-      <path d="M0,820 Q240,645 500,775 Q760,632 980,792 Q1200,642 1460,752 Q1680,645 1920,700 L1920,730 Q1680,668 1460,778 Q1200,668 980,820 Q760,660 500,800 Q240,672 0,848Z" fill="rgba(120,230,80,.12)"/>
-      <!-- Deep ground -->
-      <path d="M0,900 Q480,840 960,900 Q1440,840 1920,870 L1920,1080 L0,1080Z" fill="#286A14"/>
-    </svg>
+    <img src="bliss.jpg" alt="Bliss">
   </div>
 
   <!-- Desktop Icons -->
