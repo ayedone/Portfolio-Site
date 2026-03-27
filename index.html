@@ -163,6 +163,21 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
 .gthumb:hover{border-color:#316AC5;}
 .gthumb.active{border-color:#316AC5;outline:1px solid #fff;}
 
+/* Shutdown screen */
+#shutdown-screen{position:fixed;inset:0;background:#000;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;}
+#shutdown-screen.show{display:flex;}
+#shutdown-clippy-bubble{background:#FFFFC0;border:1px solid #888;border-radius:6px;padding:12px 16px;font-family:var(--font);font-size:13px;color:#000;max-width:240px;text-align:center;box-shadow:2px 2px 8px rgba(255,255,255,.2);margin-bottom:10px;animation:clippyPop .4s ease-out;}
+#shutdown-clippy-img{width:130px;height:130px;object-fit:contain;filter:drop-shadow(0 0 20px rgba(255,255,200,.3));animation:clippyPop .4s ease-out;}
+
+/* Help / Intro window */
+.help-wrap{padding:16px;font-size:12px;color:#000;line-height:1.6;}
+.help-wrap h2{font-size:14px;color:#003087;margin:0 0 8px;display:flex;align-items:center;gap:6px;}
+.help-wrap p{margin:0 0 10px;}
+.help-tip{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;background:#EEF4FF;border:1px solid #C0D0F0;border-radius:3px;padding:6px 8px;transition:background .15s;}
+.help-tip[onclick]:hover{background:#D8E8FF;border-color:#316AC5;}
+.help-tip img{width:20px;height:20px;flex-shrink:0;margin-top:1px;}
+.help-tip span{font-size:11px;}
+
 /* Clippy */
 #clippy-wrap{position:fixed;bottom:48px;right:16px;z-index:7000;display:none;flex-direction:column;align-items:center;gap:0;}
 #clippy-wrap.show{display:flex;}
@@ -340,13 +355,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
       <div class="sm-sep"></div>
       <div class="sm-rtitle">Settings</div>
       <div class="sm-row"><div class="sm-ico"><img src="icons/control-panel.png" alt=""></div>Control Panel</div>
-      <div class="sm-row"><div class="sm-ico"><img src="icons/printer.png" alt=""></div>Printers &amp; Faxes</div>
+      <div class="sm-row" onclick="openWin('help');closeStart()"><div class="sm-ico"><img src="icons/help.png" alt=""></div>Help &amp; Support</div>
       <div class="sm-row"><div class="sm-ico"><img src="icons/search.png" alt=""></div>Search</div>
     </div>
   </div>
   <div class="sm-foot">
-    <button class="sm-fBtn"><img src="icons/switch-user.png" alt=""> Log Off</button>
-    <button class="sm-fBtn"><img src="icons/shutdown.png" alt=""> Turn Off Computer</button>
+    <button class="sm-fBtn" onclick="triggerShutdown()"><img src="icons/switch-user.png" alt=""> Log Off</button>
+    <button class="sm-fBtn" onclick="triggerShutdown()"><img src="icons/shutdown.png" alt=""> Turn Off Computer</button>
   </div>
 </div>
 
@@ -733,6 +748,57 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
   <div class="rh rh-nw" data-wid="gallery" data-dir="nw"></div>
 </div>
 
+<!-- ════════════ SHUTDOWN SCREEN ════════════ -->
+<div id="shutdown-screen" onclick="shutdownEscape()">
+  <div id="shutdown-clippy-bubble">You didn't really want to turn off Aiden's portfolio, right?<br><br>Click me to see Aiden's resume!</div>
+  <img id="shutdown-clippy-img" src="clippy.png" alt="Clippy">
+</div>
+
+<!-- ════════════ HELP / INTRO WINDOW ════════════ -->
+<div class="xwin" id="xwin-help" style="width:360px;height:420px;top:80px;left:140px;">
+  <div class="xbar" data-wid="help">
+    <div class="xbar-ico"><img src="icons/help.png" alt="" style="width:16px;height:16px;"></div>
+    <div class="xbar-title">Welcome to Aiden's Portfolio</div>
+    <div class="xbar-btns">
+      <div class="xbtn xbtn-cls" onclick="closeWin('help')">✕</div>
+    </div>
+  </div>
+  <div class="xcontent">
+    <div class="help-wrap">
+      <h2><img src="icons/help.png" style="width:18px;height:18px;"> Welcome! Here's how this works.</h2>
+      <p>Double-click icons to open windows, drag them around, resize them — just like a real computer.</p>
+      <div class="help-tip" style="cursor:pointer;" onclick="openWin('projects');closeWin('help')">
+        <img src="icons/folder.png" alt="">
+        <span><strong>My Projects</strong> — Browse Aiden's design work. Double-click any folder to view the full image gallery.</span>
+      </div>
+      <div class="help-tip" style="cursor:pointer;" onclick="openWin('resume');closeWin('help')">
+        <img src="icons/notepad.png" alt="">
+        <span><strong>Resume</strong> — View Aiden's full work history and skills.</span>
+      </div>
+      <div class="help-tip" style="cursor:pointer;" onclick="openWin('about');closeWin('help')">
+        <img src="icons/user-accounts.png" alt="">
+        <span><strong>About Me</strong> — Learn more about Aiden's background.</span>
+      </div>
+      <div class="help-tip" style="cursor:pointer;" onclick="openWin('contact');closeWin('help')">
+        <img src="icons/email.png" alt="">
+        <span><strong>Contact</strong> — Send Aiden a message directly from this window.</span>
+      </div>
+      <div class="help-tip">
+        <img src="icons/minesweeper.png" alt="">
+        <span><strong>Tip:</strong> Try clicking Minesweeper in the Start Menu for a surprise. 👀</span>
+      </div>
+    </div>
+  </div>
+  <div class="rh rh-se" data-wid="help" data-dir="se"></div>
+  <div class="rh rh-s"  data-wid="help" data-dir="s"></div>
+  <div class="rh rh-e"  data-wid="help" data-dir="e"></div>
+  <div class="rh rh-w"  data-wid="help" data-dir="w"></div>
+  <div class="rh rh-n"  data-wid="help" data-dir="n"></div>
+  <div class="rh rh-sw" data-wid="help" data-dir="sw"></div>
+  <div class="rh rh-ne" data-wid="help" data-dir="ne"></div>
+  <div class="rh rh-nw" data-wid="help" data-dir="nw"></div>
+</div>
+
 <!-- ════════════ CLIPPY ════════════ -->
 <div id="clippy-wrap">
   <div id="clippy-bubble">
@@ -796,6 +862,7 @@ window.addEventListener('load', () => {
   playXPSound();
   startClock();
   initWindowPositions();
+  setTimeout(() => openWin('help'), 600);
 });
 
 /* ═══════════════════════════════════════════════════
@@ -908,6 +975,7 @@ function initWindowPositions() {
     about:    { w:480, h:390 },
     contact:  { w:400, h:360 },
     gallery:  { w:680, h:410 },
+    help:     { w:360, h:420 },
   };
 
   let stagger = 0;
@@ -939,6 +1007,7 @@ const WIN_META = {
   contact:  { title:'Contact',        ico:'icons/email.png' },
   gallery:  { title:'Gallery',        ico:'icons/my-pictures.png' },
   mine:     { title:'Minesweeper',    ico:'icons/minesweeper.png' },
+  help:     { title:'Help & Support', ico:'icons/help.png' },
 };
 
 /* ── PROJECT DATA ─────────────────────────────────────── */
@@ -1562,6 +1631,15 @@ closeWin = function(id) {
   _origCloseWin(id);
   if (id === 'mine') clippyHide();
 };
+
+function triggerShutdown() {
+  closeStart();
+  document.getElementById('shutdown-screen').classList.add('show');
+}
+function shutdownEscape() {
+  document.getElementById('shutdown-screen').classList.remove('show');
+  openWin('resume');
+}
 
 function smRandomGallery() {
   const ids = Object.keys(PROJECTS).filter(id => id !== 'album-artwork');
