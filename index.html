@@ -149,7 +149,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
 /* Project gallery window */
 .gallery-wrap{display:flex;flex-direction:column;height:100%;}
 .gallery-main{flex:1;background:#1a1a1a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;min-height:0;}
-.gallery-main img{max-width:100%;max-height:100%;object-fit:contain;display:block;}
+.gallery-main img{max-width:100%;max-height:100%;object-fit:contain;display:block;transition:opacity .15s ease;}
 .gallery-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;font-size:20px;width:36px;height:36px;cursor:pointer;border-radius:2px;display:flex;align-items:center;justify-content:center;}
 .gallery-nav:hover{background:rgba(49,106,197,.8);}
 .gallery-prev{left:8px;}
@@ -1020,24 +1020,24 @@ const PROJECTS = {
   ]},
   'sebc':            { title:'SEBC',              images:[
     {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},
-    {f:'6.jpg'},{f:'7.jpg'},{f:'8.png'},{f:'9.jpg'}
+    {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.jpg'}
   ]},
   'social-posts':    { title:'Social Post Concepts', images:[
-    {f:'1.png'},{f:'2.jpg'},{f:'3.png'},{f:'4.jpg'},{f:'5.jpg'},
-    {f:'6.png'},{f:'7.png'},{f:'8.jpg'},{f:'9.jpg'}
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},
+    {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.jpg'}
   ]},
   'gcu':             { title:'GCU',               images:[
     {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'}
   ]},
   'clothing-design': { title:'Clothing Design',   images:[
-    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.png'},
-    {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.png'}
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},
+    {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.jpg'}
   ]},
   'posters':         { title:'Posters',           images:[
-    {f:'1.png'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},{f:'6.png'}
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},{f:'6.jpg'}
   ]},
   'album-artwork':   { title:'Album Artwork',     images:[
-    {f:'1.jpg'},{f:'2.jpg'},{f:'3.png'},{f:'4.jpg'},{f:'5.jpg'},
+    {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},
     {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.jpg'}
   ]},
 };
@@ -1060,6 +1060,7 @@ function openProject(id) {
   proj.images.forEach((img, i) => {
     const th = document.createElement('img');
     th.className = 'gthumb' + (i === 0 ? ' active' : '');
+    th.loading = 'lazy';
     th.src = `projects/${id}/${img.f}`;
     th.alt = `Image ${i+1}`;
     th.onclick = () => galleryGoto(i);
@@ -1087,9 +1088,21 @@ function galleryGoto(idx) {
   if (!proj) return;
   galleryIndex = Math.max(0, Math.min(idx, proj.images.length - 1));
 
-  // Main image
+  // Main image — show spinner while loading
   const img = document.getElementById('galleryImg');
-  img.src = `projects/${galleryProject}/${proj.images[galleryIndex].f}`;
+  const main = document.getElementById('galleryMain');
+  img.style.opacity = '0';
+  const newSrc = `projects/${galleryProject}/${proj.images[galleryIndex].f}`;
+  img.onload = () => { img.style.opacity = '1'; };
+  img.src = newSrc;
+
+  // Preload next + prev images in background
+  [galleryIndex + 1, galleryIndex - 1].forEach(pi => {
+    if (pi >= 0 && pi < proj.images.length) {
+      const pre = new Image();
+      pre.src = `projects/${galleryProject}/${proj.images[pi].f}`;
+    }
+  });
 
   // Counter
   document.getElementById('galleryCounter').textContent =
