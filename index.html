@@ -163,6 +163,31 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
 .gthumb:hover{border-color:#316AC5;}
 .gthumb.active{border-color:#316AC5;outline:1px solid #fff;}
 
+/* Clippy */
+#clippy-wrap{position:fixed;bottom:48px;right:16px;z-index:7000;display:none;flex-direction:column;align-items:center;gap:0;}
+#clippy-wrap.show{display:flex;}
+#clippy-img{width:100px;height:100px;object-fit:contain;cursor:pointer;filter:drop-shadow(2px 4px 6px rgba(0,0,0,.4));transition:transform .15s;}
+#clippy-img:hover{transform:scale(1.08);}
+#clippy-bubble{background:#FFFFC0;border:1px solid #888;border-radius:6px;padding:8px 12px;font-family:var(--font);font-size:11px;color:#000;max-width:180px;text-align:center;box-shadow:2px 2px 6px rgba(0,0,0,.25);position:relative;margin-bottom:6px;animation:clippyPop .3s ease-out;}
+#clippy-tail{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid #FFFFC0;}
+#clippy-tail::after{content:'';position:absolute;bottom:2px;left:-9px;width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:9px solid #888;z-index:-1;}
+@keyframes clippyPop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+
+/* Minesweeper */
+#xwin-mine .xcontent{display:flex;align-items:center;justify-content:center;background:#C0C0C0;padding:0;}
+.mine-wrap{display:inline-flex;flex-direction:column;background:#C0C0C0;padding:6px;border:3px solid;border-color:#fff #808080 #808080 #fff;}
+.mine-header{display:flex;align-items:center;justify-content:space-between;background:#C0C0C0;padding:4px 6px;margin-bottom:6px;border:2px solid;border-color:#808080 #fff #fff #808080;}
+.mine-counter{background:#000;color:#f00;font-family:'Courier New',monospace;font-size:22px;font-weight:700;padding:2px 4px;letter-spacing:2px;min-width:52px;text-align:right;border:1px solid #808080;}
+.mine-face-btn{background:#C0C0C0;border:3px solid;border-color:#fff #808080 #808080 #fff;width:32px;height:32px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;}
+.mine-face-btn:active{border-color:#808080 #fff #fff #808080;}
+.mine-board{display:inline-grid;border:3px solid;border-color:#808080 #fff #fff #808080;}
+.mine-cell{width:24px;height:24px;font-size:13px;font-weight:700;font-family:'Arial',sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer;box-sizing:border-box;background:#C0C0C0;border:2px solid;border-color:#fff #808080 #808080 #fff;user-select:none;}
+.mine-cell.revealed{background:#C0C0C0;border:1px solid #808080;cursor:default;}
+.mine-cell.flagged{background:#C0C0C0;}
+.mine-cell.mine-hit{background:#f00;}
+.mine-cell.mine-wrong{background:#C0C0C0;color:#f00;}
+.mine-n1{color:#0000FF;}.mine-n2{color:#007B00;}.mine-n3{color:#FF0000;}.mine-n4{color:#00007B;}.mine-n5{color:#7B0000;}.mine-n6{color:#007B7B;}.mine-n7{color:#000;}.mine-n8{color:#808080;}
+
 /* Resume */
 .res-wrap{padding:16px;font-size:12px;color:#000;-webkit-user-select:text;user-select:text;}
 .res-name{font-size:20px;font-weight:700;color:#003087;margin-bottom:2px;}
@@ -226,6 +251,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
   #startMenu{width:280px;}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('UiRxOPE2DXFNRhfTt');</script>
 </head>
 <body>
 
@@ -265,10 +292,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
       <div class="dicon-lbl">Contact</div>
     </div>
 
-    <div class="dicon" id="ico-recycle">
-      <div class="dicon-img"><img src="icons/recycle-bin-empty.png" alt="Recycle Bin" id="recycleImg"></div>
-      <div class="dicon-lbl">Recycle Bin</div>
-    </div>
 
   </div>
 </div><!-- /desktop -->
@@ -307,7 +330,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
       <div class="sm-sep"></div>
       <div class="sm-row"><div class="sm-ico"><img src="icons/ie6.png" alt=""></div>Internet Explorer</div>
       <div class="sm-row"><div class="sm-ico"><img src="icons/outlook.png" alt=""></div>Outlook Express</div>
-      <div class="sm-row"><div class="sm-ico"><img src="icons/minesweeper.png" alt=""></div>Minesweeper</div>
+      <div class="sm-row" onclick="openWin('mine');toggleStart()"><div class="sm-ico"><img src="icons/minesweeper.png" alt=""></div>Minesweeper</div>
     </div>
     <div class="sm-right">
       <div class="sm-rtitle">My Computer</div>
@@ -711,6 +734,50 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
   <div class="rh rh-nw" data-wid="gallery" data-dir="nw"></div>
 </div>
 
+<!-- ════════════ CLIPPY ════════════ -->
+<div id="clippy-wrap">
+  <div id="clippy-bubble">
+    <div id="clippy-text">It looks like you're browsing a portfolio!<br>Click me to get in contact with Aiden!</div>
+    <div id="clippy-tail"></div>
+  </div>
+  <img id="clippy-img" src="clippy.png" alt="Clippy" onclick="clippyContact()">
+</div>
+
+<!-- ════════════ MINESWEEPER ════════════ -->
+<div class="xwin" id="xwin-mine" style="width:auto;height:auto;top:80px;left:280px;">
+  <div class="xbar" data-wid="mine">
+    <div class="xbar-ico"><img src="icons/minesweeper.png" alt="" style="width:16px;height:16px;"></div>
+    <div class="xbar-title">Minesweeper</div>
+    <div class="xbar-btns">
+      <div class="xbtn xbtn-min" onclick="minWin('mine')">_</div>
+      <div class="xbtn xbtn-max" onclick="maxWin('mine')" id="maxBtn-mine">□</div>
+      <div class="xbtn xbtn-cls" onclick="closeWin('mine')">✕</div>
+    </div>
+  </div>
+  <div class="xmenu">
+    <span class="xmitem" onclick="mineNewGame()">Game</span>
+    <span class="xmitem">Help</span>
+  </div>
+  <div class="xcontent" id="mineContent">
+    <div class="mine-wrap">
+      <div class="mine-header">
+        <div class="mine-counter" id="mineMineCount">010</div>
+        <button class="mine-face-btn" id="mineFace" onclick="mineNewGame()">🙂</button>
+        <div class="mine-counter" id="mineTimer">000</div>
+      </div>
+      <div class="mine-board" id="mineBoard"></div>
+    </div>
+  </div>
+  <div class="rh rh-se" data-wid="mine" data-dir="se"></div>
+  <div class="rh rh-s"  data-wid="mine" data-dir="s"></div>
+  <div class="rh rh-e"  data-wid="mine" data-dir="e"></div>
+  <div class="rh rh-w"  data-wid="mine" data-dir="w"></div>
+  <div class="rh rh-n"  data-wid="mine" data-dir="n"></div>
+  <div class="rh rh-sw" data-wid="mine" data-dir="sw"></div>
+  <div class="rh rh-ne" data-wid="mine" data-dir="ne"></div>
+  <div class="rh rh-nw" data-wid="mine" data-dir="nw"></div>
+</div>
+
 <script>
 /* ═══════════════════════════════════════════════════
    STATE
@@ -872,6 +939,7 @@ const WIN_META = {
   about:    { title:'About Me',       ico:'icons/user-accounts.png' },
   contact:  { title:'Contact',        ico:'icons/email.png' },
   gallery:  { title:'Gallery',        ico:'icons/my-pictures.png' },
+  mine:     { title:'Minesweeper',    ico:'icons/minesweeper.png' },
 };
 
 /* ── PROJECT DATA ─────────────────────────────────────── */
@@ -1271,13 +1339,28 @@ document.getElementById('desktop').addEventListener('click', e => {
    CONTACT FORM
    ═══════════════════════════════════════════════════ */
 function sendContact() {
-  const n = document.getElementById('cName').value.trim();
-  const em = document.getElementById('cEmail').value.trim();
+  const n   = document.getElementById('cName').value.trim();
+  const em  = document.getElementById('cEmail').value.trim();
+  const sub = document.getElementById('cSubj').value.trim();
   const msg = document.getElementById('cMsg').value.trim();
-  const st = document.getElementById('cStatus');
-  if (!n||!em||!msg) { st.textContent='⚠ Please fill Name, Email and Message.'; return; }
-  st.textContent='✓ Message sent! Thank you, '+n+'.';
-  ['cName','cEmail','cSubj','cMsg'].forEach(id=>document.getElementById(id).value='');
+  const st  = document.getElementById('cStatus');
+  if (!n||!em||!msg) { st.textContent='⚠ Please fill in Name, Email and Message.'; return; }
+  st.textContent='📨 Sending...';
+  document.querySelector('#xwin-contact .xp-btn-form').disabled = true;
+  emailjs.send('service_e5jlz6y', 'template_vd4wsel', {
+    from_name:  n,
+    from_email: em,
+    subject:    sub || '(no subject)',
+    message:    msg,
+  }).then(() => {
+    st.textContent = '✓ Message sent! Aiden will be in touch.';
+    ['cName','cEmail','cSubj','cMsg'].forEach(id => document.getElementById(id).value = '');
+    document.querySelector('#xwin-contact .xp-btn-form').disabled = false;
+  }).catch(err => {
+    st.textContent = '✕ Send failed — please email aidenjdevere@gmail.com directly.';
+    document.querySelector('#xwin-contact .xp-btn-form').disabled = false;
+    console.error('EmailJS error:', err);
+  });
 }
 function clearContact() {
   ['cName','cEmail','cSubj','cMsg'].forEach(id=>document.getElementById(id).value='');
@@ -1301,6 +1384,199 @@ window.addEventListener('resize', () => {
     if (r.bottom > vh) win.style.top  = Math.max(0, vh - r.height) + 'px';
   });
 });
+
+/* ═══════════════════════════════════════════════════
+   MINESWEEPER
+   ═══════════════════════════════════════════════════ */
+const MINE_ROWS = 9, MINE_COLS = 9, MINE_COUNT = 10;
+let mineBoard = [], mineRevealed = [], mineFlagged = [];
+let mineGameOver = false, mineWon = false, mineFirstClick = true;
+let mineTimerVal = 0, mineTimerInterval = null, mineRemainingMines = MINE_COUNT;
+
+function minePad(n) { return String(Math.min(999, Math.max(0, n))).padStart(3,'0'); }
+
+function mineNewGame() {
+  clearInterval(mineTimerInterval);
+  mineTimerVal = 0; mineGameOver = false; mineWon = false; mineFirstClick = true;
+  mineRemainingMines = MINE_COUNT;
+  document.getElementById('mineTimer').textContent = '000';
+  document.getElementById('mineMineCount').textContent = minePad(MINE_COUNT);
+  document.getElementById('mineFace').textContent = '🙂';
+  mineBoard = Array.from({length:MINE_ROWS}, () => Array(MINE_COLS).fill(0));
+  mineRevealed = Array.from({length:MINE_ROWS}, () => Array(MINE_COLS).fill(false));
+  mineFlagged  = Array.from({length:MINE_ROWS}, () => Array(MINE_COLS).fill(false));
+  mineRender();
+}
+
+function minePlaceMines(safeR, safeC) {
+  let placed = 0;
+  while (placed < MINE_COUNT) {
+    const r = Math.floor(Math.random() * MINE_ROWS);
+    const c = Math.floor(Math.random() * MINE_COLS);
+    if (mineBoard[r][c] === -1) continue;
+    if (Math.abs(r-safeR) <= 1 && Math.abs(c-safeC) <= 1) continue;
+    mineBoard[r][c] = -1;
+    placed++;
+  }
+  for (let r=0; r<MINE_ROWS; r++) {
+    for (let c=0; c<MINE_COLS; c++) {
+      if (mineBoard[r][c] === -1) continue;
+      let count = 0;
+      for (let dr=-1; dr<=1; dr++) for (let dc=-1; dc<=1; dc++) {
+        const nr=r+dr, nc=c+dc;
+        if (nr>=0&&nr<MINE_ROWS&&nc>=0&&nc<MINE_COLS&&mineBoard[nr][nc]===-1) count++;
+      }
+      mineBoard[r][c] = count;
+    }
+  }
+}
+
+function mineReveal(r, c) {
+  if (r<0||r>=MINE_ROWS||c<0||c>=MINE_COLS) return;
+  if (mineRevealed[r][c] || mineFlagged[r][c]) return;
+  mineRevealed[r][c] = true;
+  if (mineBoard[r][c] === 0) {
+    for (let dr=-1; dr<=1; dr++) for (let dc=-1; dc<=1; dc++) mineReveal(r+dr, c+dc);
+  }
+}
+
+function mineClick(r, c) {
+  if (mineGameOver || mineWon) return;
+  if (mineFlagged[r][c]) return;
+  if (mineRevealed[r][c]) {
+    // Chord: if flagged neighbors == cell number, reveal unflagged neighbors
+    const num = mineBoard[r][c];
+    if (num > 0) {
+      let flags = 0;
+      for (let dr=-1; dr<=1; dr++) for (let dc=-1; dc<=1; dc++) {
+        const nr=r+dr, nc=c+dc;
+        if (nr>=0&&nr<MINE_ROWS&&nc>=0&&nc<MINE_COLS&&mineFlagged[nr][nc]) flags++;
+      }
+      if (flags === num) {
+        for (let dr=-1; dr<=1; dr++) for (let dc=-1; dc<=1; dc++) {
+          const nr=r+dr, nc=c+dc;
+          if (nr>=0&&nr<MINE_ROWS&&nc>=0&&nc<MINE_COLS&&!mineFlagged[nr][nc]&&!mineRevealed[nr][nc]) {
+            if (mineBoard[nr][nc] === -1) { mineTriggerMine(nr, nc); return; }
+            mineReveal(nr, nc);
+          }
+        }
+      }
+    }
+    mineRender(); return;
+  }
+  if (mineFirstClick) {
+    mineFirstClick = false;
+    minePlaceMines(r, c);
+    mineTimerInterval = setInterval(() => {
+      mineTimerVal++;
+      document.getElementById('mineTimer').textContent = minePad(mineTimerVal);
+      if (mineTimerVal >= 999) clearInterval(mineTimerInterval);
+    }, 1000);
+  }
+  if (mineBoard[r][c] === -1) { mineTriggerMine(r, c); return; }
+  mineReveal(r, c);
+  mineCheckWin();
+  mineRender();
+}
+
+function mineTriggerMine(hitR, hitC) {
+  mineGameOver = true;
+  clearInterval(mineTimerInterval);
+  document.getElementById('mineFace').textContent = '😵';
+  mineRevealed[hitR][hitC] = true;
+  mineRender(hitR, hitC);
+}
+
+function mineFlag(r, c) {
+  if (mineGameOver || mineWon || mineRevealed[r][c]) return;
+  mineFlagged[r][c] = !mineFlagged[r][c];
+  mineRemainingMines += mineFlagged[r][c] ? -1 : 1;
+  document.getElementById('mineMineCount').textContent = minePad(mineRemainingMines);
+  mineRender();
+}
+
+function mineCheckWin() {
+  let unrevealed = 0;
+  for (let r=0; r<MINE_ROWS; r++) for (let c=0; c<MINE_COLS; c++)
+    if (!mineRevealed[r][c]) unrevealed++;
+  if (unrevealed === MINE_COUNT) {
+    mineWon = true;
+    mineGameOver = true;
+    clearInterval(mineTimerInterval);
+    document.getElementById('mineFace').textContent = '😎';
+    document.getElementById('mineMineCount').textContent = '000';
+    // Auto-flag remaining mines
+    for (let r=0; r<MINE_ROWS; r++) for (let c=0; c<MINE_COLS; c++)
+      if (mineBoard[r][c] === -1) mineFlagged[r][c] = true;
+  }
+}
+
+function mineRender(hitR, hitC) {
+  const board = document.getElementById('mineBoard');
+  board.style.gridTemplateColumns = `repeat(${MINE_COLS}, 24px)`;
+  board.innerHTML = '';
+  for (let r=0; r<MINE_ROWS; r++) {
+    for (let c=0; c<MINE_COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'mine-cell';
+      const isHit = (r===hitR && c===hitC);
+      if (mineRevealed[r][c]) {
+        cell.classList.add('revealed');
+        if (mineBoard[r][c] === -1) {
+          cell.textContent = '💣';
+          if (isHit) cell.classList.add('mine-hit');
+        } else if (mineBoard[r][c] > 0) {
+          cell.textContent = mineBoard[r][c];
+          cell.classList.add('mine-n'+mineBoard[r][c]);
+        }
+      } else if (mineFlagged[r][c]) {
+        cell.textContent = '🚩';
+        if (mineGameOver && mineBoard[r][c] !== -1) {
+          cell.classList.add('mine-wrong');
+          cell.textContent = '❌';
+        }
+      } else if (mineGameOver && mineBoard[r][c] === -1) {
+        cell.textContent = '💣';
+        cell.classList.add('revealed');
+      }
+      const rr=r, cc=c;
+      cell.addEventListener('click', () => mineClick(rr, cc));
+      cell.addEventListener('contextmenu', e => { e.preventDefault(); mineFlag(rr, cc); });
+      board.appendChild(cell);
+    }
+  }
+}
+
+// Init minesweeper board when window first opens + show Clippy
+const _origOpenWin = openWin;
+openWin = function(id) {
+  _origOpenWin(id);
+  if (id === 'mine') {
+    if (mineFirstClick && !mineGameOver) mineNewGame();
+    setTimeout(clippyShow, 800);
+  }
+};
+
+// Hook closeWin to hide Clippy when Minesweeper closes
+const _origCloseWin = closeWin;
+closeWin = function(id) {
+  _origCloseWin(id);
+  if (id === 'mine') clippyHide();
+};
+
+function clippyShow() {
+  const el = document.getElementById('clippy-wrap');
+  el.classList.add('show');
+}
+function clippyHide() {
+  document.getElementById('clippy-wrap').classList.remove('show');
+}
+function clippyContact() {
+  clippyHide();
+  openWin('contact');
+}
+
+mineNewGame();
 </script>
 </body>
 </html>
