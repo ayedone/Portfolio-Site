@@ -344,7 +344,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
       <div class="sm-row" onclick="openWin('contact');closeStart()"><div class="sm-ico"><img src="icons/email.png" alt=""></div>Contact</div>
       <div class="sm-sep"></div>
       <div class="sm-row" onclick="openWin('contact');toggleStart()"><div class="sm-ico"><img src="icons/outlook.png" alt=""></div>Outlook Express</div>
-      <div class="sm-row" onclick="openWin('mine');toggleStart()"><div class="sm-ico"><img src="icons/minesweeper.png" alt=""></div>Minesweeper</div>
+      <div class="sm-row" onclick="openWin('mine')"><div class="sm-ico"><img src="icons/minesweeper.png" alt=""></div>Minesweeper</div>
     </div>
     <div class="sm-right">
       <div class="sm-rtitle">My Computer</div>
@@ -1157,6 +1157,18 @@ function openWin(id) {
   bringFront(id);
   addTbBtn(id);
   wOpen[id] = true;
+
+  // Center auto-sized windows (e.g. Minesweeper) on mobile
+  if (window.innerWidth < 600 && (win.style.width === 'auto' || !win.style.width)) {
+    requestAnimationFrame(() => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight - 40;
+      const w = win.offsetWidth;
+      const h = win.offsetHeight;
+      win.style.left = Math.max(0, Math.round((vw - w) / 2)) + 'px';
+      win.style.top  = Math.max(0, Math.round((vh - h) / 2)) + 'px';
+    });
+  }
 }
 
 function closeWin(id) {
