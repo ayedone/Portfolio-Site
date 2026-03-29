@@ -1732,7 +1732,7 @@ openWin = function(id) {
   _origOpenWin(id);
   if (id === 'mine') {
     if (mineFirstClick && !mineGameOver) mineNewGame();
-    setTimeout(clippyShow, 800);
+    setTimeout(() => clippyShow('It looks like you\'re enjoying this portfolio! Click me to get in contact with Aiden.'), 800);
   }
 };
 
@@ -1758,9 +1758,9 @@ function smRandomGallery() {
   openProject(pick);
 }
 
-function clippyShow() {
-  const el = document.getElementById('clippy-wrap');
-  el.classList.add('show');
+function clippyShow(msg) {
+  if (msg) document.getElementById('clippy-text').textContent = msg;
+  document.getElementById('clippy-wrap').classList.add('show');
 }
 function clippyHide() {
   document.getElementById('clippy-wrap').classList.remove('show');
@@ -1769,6 +1769,33 @@ function clippyContact() {
   clippyHide();
   openWin('contact');
 }
+
+/* ── Idle Clippy — shows after 30s of no interaction ── */
+let idleTimer = null;
+const IDLE_MSG = 'Click one of the icons on the desktop to learn more, or click me to get in contact with Aiden!';
+
+function startIdleTimer() {
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => {
+    if (!document.getElementById('clippy-wrap').classList.contains('show')) {
+      clippyShow(IDLE_MSG);
+    }
+  }, 30000);
+}
+
+// Reset timer on any real interaction
+['mousemove','mousedown','keydown','touchstart','scroll'].forEach(evt => {
+  document.addEventListener(evt, startIdleTimer, { passive: true });
+});
+
+// Dismiss Clippy on any click outside of it (but not during Minesweeper)
+document.addEventListener('click', e => {
+  if (e.target.closest('#clippy-wrap')) return; // clicking Clippy handled by clippyContact()
+  if (wOpen['mine']) return; // don't dismiss during Minesweeper
+  clippyHide();
+}, true);
+
+startIdleTimer();
 
 mineNewGame();
 
