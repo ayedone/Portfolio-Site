@@ -1038,7 +1038,8 @@ const PROJECTS = {
   ]},
   'album-artwork':   { title:'Album Artwork',     images:[
     {f:'1.jpg'},{f:'2.jpg'},{f:'3.jpg'},{f:'4.jpg'},{f:'5.jpg'},
-    {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.jpg'}
+    {f:'6.jpg'},{f:'7.jpg'},{f:'8.jpg'},{f:'9.jpg'},{f:'10.jpg'},
+    {f:'11.jpg'},{f:'12.jpg'}
   ]},
 };
 
@@ -1427,6 +1428,16 @@ document.getElementById('desktop').addEventListener('click', e => {
     document.querySelectorAll('.dicon').forEach(i=>i.classList.remove('sel'));
   }
 });
+
+/* ── Mobile: single tap fires ondblclick on icons & project folders ── */
+if ('ontouchstart' in window) {
+  document.querySelectorAll('.dicon, .proj-folder').forEach(el => {
+    el.addEventListener('touchend', e => {
+      e.preventDefault();
+      if (typeof el.ondblclick === 'function') el.ondblclick(e);
+    }, { passive: false });
+  });
+}
 
 /* ═══════════════════════════════════════════════════
    CONTACT FORM
