@@ -3,7 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — Windows XP</title>
+<title>Aiden DeVere — Portfolio</title>
+
+<!-- SEO -->
+<meta name="description" content="Aiden DeVere's portfolio — marketing, design, and creative work.">
+<meta name="author" content="Aiden DeVere">
+<meta name="keywords" content="Aiden DeVere, Marketing Director, Performance Marketing, Paid Search, Paid Social, UTM, CRM, Salesforce, Phoenix AZ, Creative Designer">
+
+<!-- Open Graph (link previews on iMessage, Slack, Discord, LinkedIn, Facebook, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aidendevere.com">
+<meta property="og:title" content="Aiden DeVere — Portfolio">
+<meta property="og:description" content="Aiden DeVere's portfolio — marketing, design, and creative work.">
+<meta property="og:image" content="https://aidendevere.com/bliss_upscayl_2x_high-fidelity-4x.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Aiden DeVere — Portfolio">
+<meta name="twitter:description" content="Aiden DeVere's portfolio — marketing, design, and creative work.">
+<meta name="twitter:image" content="https://aidendevere.com/bliss_upscayl_2x_high-fidelity-4x.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -241,19 +261,51 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
 .xp-btn-form:active{background:linear-gradient(180deg,#D4D0C8,#ECE9D8);}
 
 /* My Computer */
-.mycomp-wrap{padding:12px 14px;background:var(--win-bg);}
-.mycomp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
-.drive-tile{background:#fff;border:1px solid #C4C0B8;padding:8px 10px;border-radius:4px;display:flex;align-items:center;gap:8px;cursor:pointer;}
+.mycomp-wrap{padding:10px 12px;background:var(--win-bg);height:100%;box-sizing:border-box;display:flex;flex-direction:column;}
+.mycomp-grid{display:grid;grid-template-columns:1fr;gap:7px;margin-top:6px;}
+.drive-tile{background:#fff;border:1px solid #C4C0B8;padding:8px 10px;border-radius:4px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;}
 .drive-tile:hover{background:#EEF0FA;border-color:#316AC5;}
-.drive-ico{font-size:28px;flex-shrink:0;}
+.drive-tile.sel{background:#D8E4F8;border-color:#316AC5;}
+.drive-ico{flex-shrink:0;}
 .drive-info{min-width:0;}
 .drive-info p{font-size:11px;font-weight:700;color:#000;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .drive-info span{font-size:10px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
 .drive-bar{height:5px;background:#DDD;border-radius:3px;margin-top:3px;overflow:hidden;}
 .drive-fill{height:100%;background:#316AC5;border-radius:3px;}
-.sysinfo{margin-top:8px;background:#fff;border:1px solid #C4C0B8;border-radius:4px;padding:7px 12px;}
+.sysinfo{margin-top:8px;background:#fff;border:1px solid #C4C0B8;border-radius:4px;padding:7px 12px;flex-shrink:0;}
 .sysinfo p{font-size:11px;color:#333;line-height:1.6;margin:0;}
 .sysinfo strong{color:#003087;}
+/* MC panels */
+.mc-panel{display:none;flex-direction:column;height:100%;}
+.mc-panel.active{display:flex;}
+.mc-path{font-size:10px;color:#555;background:#f0efea;border:1px solid #ccc;padding:2px 8px;margin-bottom:6px;border-radius:2px;flex-shrink:0;}
+.mc-back{background:var(--win-bg);border:2px solid;border-color:#fff #808080 #808080 #fff;font-size:11px;padding:2px 10px;cursor:pointer;margin-bottom:6px;align-self:flex-start;}
+.mc-back:active{border-color:#808080 #fff #fff #808080;}
+/* Skills list */
+.skill-list{display:flex;flex-direction:column;gap:5px;overflow-y:auto;flex:1;}
+.skill-row{background:#fff;border:1px solid #C4C0B8;padding:7px 10px;border-radius:3px;cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none;}
+.skill-row:hover{background:#EEF0FA;border-color:#316AC5;}
+.skill-row-icon{font-size:18px;flex-shrink:0;}
+.skill-row-info{min-width:0;}
+.skill-row-name{font-size:11px;font-weight:700;color:#000;}
+.skill-row-sub{font-size:10px;color:#666;}
+/* Skill detail */
+.mc-detail-inner{display:flex;flex-direction:column;gap:7px;overflow-y:auto;flex:1;}
+.mc-detail-head{display:flex;align-items:center;gap:8px;}
+.mc-detail-head-icon{font-size:28px;}
+.mc-detail-head-name{font-size:14px;font-weight:700;color:#003087;}
+.mc-detail-sec{background:#fff;border:1px solid #C4C0B8;border-radius:3px;padding:7px 10px;}
+.mc-detail-sec-label{font-size:10px;font-weight:700;color:#316AC5;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.mc-detail-sec-text{font-size:11px;color:#333;line-height:1.5;}
+/* Inline Clippy */
+.mc-clippy-wrap{background:#fff;border:1px solid #C4C0B8;border-radius:3px;padding:8px 10px;display:flex;gap:8px;align-items:flex-start;flex-shrink:0;}
+.mc-clippy-img{width:48px;height:48px;object-fit:contain;flex-shrink:0;}
+.mc-clippy-right{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0;}
+.mc-clippy-bubble{background:#FFFFC0;border:1px solid #888;border-radius:5px;padding:6px 8px;font-size:11px;color:#000;line-height:1.45;}
+.mc-clippy-btns{display:flex;gap:5px;flex-wrap:wrap;}
+.mc-clippy-btn{background:var(--win-bg);border:2px solid;border-color:#fff #808080 #808080 #fff;font-size:10px;padding:2px 7px;cursor:pointer;white-space:nowrap;}
+.mc-clippy-btn:active{border-color:#808080 #fff #fff #808080;}
+.mc-clippy-btn.used{border-color:#808080 #fff #fff #808080;color:#888;}
 
 /* ── TOOLTIP ─────────────────────────────────────────── */
 #tooltip{position:fixed;background:#FFFFE1;border:1px solid #888;padding:3px 7px;font-size:11px;color:#000;z-index:9999;pointer-events:none;display:none;}
@@ -283,8 +335,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
   <div class="icon-grid" id="iconGrid">
 
     <div class="dicon" id="ico-mycomp" ondblclick="openWin('mycomp')">
-      <div class="dicon-img"><img src="icons/my-computer.png" alt="My Computer"></div>
-      <div class="dicon-lbl">My Computer</div>
+      <div class="dicon-img"><img src="icons/my-computer.png" alt="My Skills"></div>
+      <div class="dicon-lbl">My Skills</div>
     </div>
 
     <div class="dicon" id="ico-projects" ondblclick="openWin('projects')">
@@ -347,8 +399,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
       <div class="sm-row" onclick="openWin('mine')"><div class="sm-ico"><img src="icons/minesweeper.png" alt=""></div>Minesweeper</div>
     </div>
     <div class="sm-right">
-      <div class="sm-rtitle">My Computer</div>
-      <div class="sm-row" onclick="openWin('mycomp');closeStart()"><div class="sm-ico"><img src="icons/my-computer.png" alt=""></div>My Computer</div>
+      <div class="sm-rtitle">My Skills</div>
+      <div class="sm-row" onclick="openWin('mycomp');closeStart()"><div class="sm-ico"><img src="icons/my-computer.png" alt=""></div>My Skills</div>
       <div class="sm-row" onclick="openWin('projects');closeStart()"><div class="sm-ico"><img src="icons/my-documents.png" alt=""></div>My Documents</div>
       <div class="sm-row" onclick="smRandomGallery();closeStart()"><div class="sm-ico"><img src="icons/my-pictures.png" alt=""></div>My Pictures</div>
       <div class="sm-row" onclick="openProject('album-artwork');closeStart()"><div class="sm-ico"><img src="icons/my-music.png" alt=""></div>My Music</div>
@@ -386,10 +438,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
      ═══════════════════════════════════════ -->
 
 <!-- MY COMPUTER -->
-<div class="xwin active" id="xwin-mycomp" style="width:500px;height:380px;">
+<div class="xwin active" id="xwin-mycomp" style="width:520px;height:530px;">
   <div class="xbar" data-wid="mycomp">
     <div class="xbar-ico"><img src="icons/my-computer.png" alt=""></div>
-    <div class="xbar-title">My Computer</div>
+    <div class="xbar-title" id="mycomp-title">My Skills</div>
     <div class="xbar-btns">
       <div class="xbtn xbtn-min" onclick="minWin('mycomp')" title="Minimize">_</div>
       <div class="xbtn xbtn-max" onclick="maxWin('mycomp')" title="Maximize" id="maxBtn-mycomp">□</div>
@@ -402,50 +454,30 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
   </div>
   <div class="xcontent">
     <div class="mycomp-wrap">
-      <p style="font-size:11px;color:#555;margin-bottom:10px;">Skills &amp; Tools — Double-click a drive to explore.</p>
-      <div class="mycomp-grid">
-        <div class="drive-tile">
-          <div class="drive-ico"><img src="icons/my-network.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
-          <div class="drive-info">
-            <p>Paid Media &amp; Analytics (C:)</p>
-            <span>Google Ads · Meta Ads · UTM · GA4 · Looker Studio</span>
-            <div class="drive-bar"><div class="drive-fill" style="width:90%"></div></div>
-          </div>
-        </div>
-        <div class="drive-tile">
-          <div class="drive-ico"><img src="icons/shared-folder.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
-          <div class="drive-info">
-            <p>CRM &amp; Lead Ops (D:)</p>
-            <span>Salesforce · Lead Docket · CallRail · HubSpot</span>
-            <div class="drive-bar"><div class="drive-fill" style="width:82%"></div></div>
-          </div>
-        </div>
-        <div class="drive-tile">
-          <div class="drive-ico"><img src="icons/my-documents.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
-          <div class="drive-info">
-            <p>Content &amp; Social (E:)</p>
-            <span>SEO · Paid Social · Email · Content Strategy</span>
-            <div class="drive-bar"><div class="drive-fill" style="width:87%"></div></div>
-          </div>
-        </div>
-        <div class="drive-tile">
-          <div class="drive-ico"><img src="icons/my-pictures.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
-          <div class="drive-info">
-            <p>Creative Suite (F:)</p>
-            <span>Photoshop · Illustrator · Premiere Pro · After Effects · Canva</span>
-            <div class="drive-bar"><div class="drive-fill" style="width:95%"></div></div>
-          </div>
+
+      <!-- PANEL 1: Drives -->
+      <div class="mc-panel active" id="mc-panel-drives">
+        <div class="mc-path">My Skills</div>
+        <p style="font-size:11px;color:#555;flex-shrink:0;">Double-click a category to explore.</p>
+        <div class="mycomp-grid" id="mc-drives-grid"></div>
+        <div class="sysinfo">
+          <p><strong>Experience:</strong> 4 Years · Marketing Director &amp; Creative Designer</p>
+          <p><strong>Key Win:</strong> $250K+ Revenue · 20x ROAS — Telaré Law</p>
+          <p><strong>Clients:</strong> Telaré Law · NEWWRLD Distribution · Oakland A's · GCU · SEBC</p>
+          <p><strong>Education:</strong> B.A. Marketing, Grand Canyon University · A.A. Columbia Basin College</p>
         </div>
       </div>
-      <div class="sysinfo">
-        <p><strong>Experience:</strong> 3+ Years · Digital Marketing &amp; Creative Design</p>
-        <p><strong>Key Win:</strong> $200K+ Revenue · 20x ROAS — Telaré Law</p>
-        <p><strong>Clients:</strong> Oakland A's · GCU · Telaré Law · SEBC</p>
-        <p><strong>Education:</strong> B.A. Marketing &amp; Sales, Grand Canyon University · Dean's List 2021</p>
+
+      <!-- PANEL 2: Category overview -->
+      <div class="mc-panel" id="mc-panel-overview">
+        <div class="mc-path" id="mc-path-overview">My Skills &gt; ...</div>
+        <button class="mc-back" onclick="mcBack()">&#8592; Back</button>
+        <div class="mc-detail-inner" id="mc-overview-inner"></div>
       </div>
+
     </div>
   </div>
-  <div class="xstatus"><span class="xstat-item">4 skill drives</span></div>
+  <div class="xstatus"><span class="xstat-item" id="mc-status">5 skill categories</span></div>
   <div class="rh rh-se" data-wid="mycomp" data-dir="se"></div>
   <div class="rh rh-s"  data-wid="mycomp" data-dir="s"></div>
   <div class="rh rh-e"  data-wid="mycomp" data-dir="e"></div>
@@ -687,7 +719,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
 </div>
 
 <!-- CONTACT -->
-<div class="xwin active" id="xwin-contact" style="width:400px;height:370px;">
+<div class="xwin active" id="xwin-contact" style="width:400px;height:430px;">
   <div class="xbar" data-wid="contact">
     <div class="xbar-ico"><img src="icons/email.png" alt=""></div>
     <div class="xbar-title">Contact — New Message</div>
@@ -984,11 +1016,11 @@ function initWindowPositions() {
   const mobile = vw < 600;
 
   const defs = {
-    mycomp:   { w:500, h:360 },
+    mycomp:   { w:520, h:530 },
     projects: { w:580, h:400 },
     resume:   { w:560, h:400 },
     about:    { w:480, h:390 },
-    contact:  { w:400, h:360 },
+    contact:  { w:400, h:430 },
     gallery:  { w:680, h:410 },
     help:     { w:360, h:420 },
   };
@@ -1015,7 +1047,7 @@ function initWindowPositions() {
    WINDOW OPEN / CLOSE / MIN / MAX
    ═══════════════════════════════════════════════════ */
 const WIN_META = {
-  mycomp:   { title:'My Computer',   ico:'icons/my-computer.png' },
+  mycomp:   { title:'My Skills',     ico:'icons/my-computer.png' },
   projects: { title:'My Projects',   ico:'icons/folder.png' },
   resume:   { title:'Resume',         ico:'icons/notepad.png' },
   about:    { title:'About Me',       ico:'icons/user-accounts.png' },
@@ -1174,15 +1206,25 @@ function openWin(id) {
   addTbBtn(id);
   wOpen[id] = true;
 
-  // Center auto-sized windows (e.g. Minesweeper) on mobile
-  if (window.innerWidth < 600 && (win.style.width === 'auto' || !win.style.width)) {
+  // Mobile: size to fit screen and center — desktop untouched
+  if (window.innerWidth < 600) {
     requestAnimationFrame(() => {
       const vw = window.innerWidth;
-      const vh = window.innerHeight - 40;
-      const w = win.offsetWidth;
-      const h = win.offsetHeight;
-      win.style.left = Math.max(0, Math.round((vw - w) / 2)) + 'px';
-      win.style.top  = Math.max(0, Math.round((vh - h) / 2)) + 'px';
+      const vh = window.innerHeight - 40; // minus taskbar
+      const pad = 8;
+      const maxW = vw - pad * 2;
+      const maxH = vh - pad * 2;
+      // Cap width
+      const curW = win.offsetWidth;
+      const newW = Math.min(curW, maxW);
+      if (newW < curW) win.style.width = newW + 'px';
+      // Cap height
+      const curH = win.offsetHeight;
+      const newH = Math.min(curH, maxH);
+      if (newH < curH) win.style.height = newH + 'px';
+      // Center
+      win.style.left = Math.max(pad, Math.round((vw - win.offsetWidth)  / 2)) + 'px';
+      win.style.top  = Math.max(pad, Math.round((vh - win.offsetHeight) / 2)) + 'px';
     });
   }
 }
@@ -1709,6 +1751,149 @@ function clippyContact() {
   clippyHide();
   openWin('contact');
 }
+
+mineNewGame();
+
+/* ═══════════════════════════════════════════════════
+   MY SKILLS — CATEGORY OVERVIEW BROWSER
+   ═══════════════════════════════════════════════════ */
+const MC_DRIVES = [
+  { id:'paid-media', label:'Paid Media & Analytics', drive:'C:', icon:'icons/my-network.png',    fill:90,
+    tools:'Google Ads · Meta Ads · UTM Architecture · GA4 · CallRail · Multi-Touch Attribution',
+    what:'Full performance marketing stack — building, measuring, and optimizing paid campaigns across search and social to drive revenue at scale.',
+    where:'Telaré Law — rebuilt the entire media mix from scratch, eliminating every negative-ROI channel and architecting a firm-wide UTM + CallRail attribution stack to track every dollar from first click to signed client.',
+    c1:{ btn:'What was the result?',     msg:'Aiden cut the waste, rebuilt around high-intent keywords with airtight attribution, and generated $250K+ in additional projected revenue at 20x ROAS — plus a billboard campaign that did 6x ROI in 3 months.' },
+    c2:{ btn:'What\'s the attribution story?', msg:'Before Aiden\'s UTM framework, the team had no idea which ads were generating signed clients. After? Every dollar was traceable — which is exactly what led to the budget shift and the 20x ROAS result.' },
+  },
+  { id:'crm', label:'CRM & Lead Ops', drive:'D:', icon:'icons/shared-folder.png', fill:82,
+    tools:'Salesforce / Litify · Lead Docket · CallRail',
+    what:'Building and maintaining the tech stack that connects marketing spend directly to signed clients — CRM setup, lead pipeline management, and attribution infrastructure.',
+    where:'Telaré Law — assisted the full CRM buildout in Salesforce/Litify and Lead Docket, connecting marketing attribution data to intake so the team could measure real CPL per channel.',
+    c1:{ btn:'What did he connect?',     msg:'Aiden mapped UTM data and CallRail call logs into Salesforce/Litify and Lead Docket — so every lead in the pipeline was tagged with the exact ad and keyword that generated it.' },
+    c2:{ btn:'Why does that matter?',   msg:'Before the CRM was properly connected to marketing, there was no way to know which channels were actually driving signed cases. After Aiden\'s work, budget decisions were based on real CPL data — not gut feel.' },
+  },
+  { id:'content', label:'Content & Social', drive:'E:', icon:'icons/my-documents.png', fill:87,
+    tools:'Local SEO · Google Business Profile · Social Media · Email Marketing · Omnichannel Strategy',
+    what:'Planning, creating, and distributing content that builds brand presence and drives inbound leads — from data-driven content calendars to go-to-market SEO launches.',
+    where:'Telaré Law (Facebook, Instagram, LinkedIn + local SEO for new office launch) and NEWWRLD Distribution (Instagram, TikTok, YouTube — up to 30 posts/day across multiple artist accounts).',
+    c1:{ btn:'30 posts a day?',          msg:'At NEWWRLD Distribution, Aiden managed multiple artist and media brand accounts simultaneously — publishing 30+ pieces of content daily across Instagram, TikTok, and YouTube without dropping consistency or quality.' },
+    c2:{ btn:'What about the SEO work?', msg:'Aiden led go-to-market local SEO for Telaré Law\'s new eastern Oregon office — GBP setup, local citations, and geo-targeted content — driving inquiries from week one before the office even had signage.' },
+  },
+  { id:'creative', label:'Creative Suite', drive:'F:', icon:'icons/my-pictures.png', fill:95,
+    tools:'Adobe Photoshop · Illustrator · Premiere Pro · After Effects · Canva · Video Production',
+    what:'End-to-end creative production — graphic design, brand identity, video, and visual content across print and digital for clients and artist brands.',
+    where:'Telaré Law (brand refresh + website visuals), NEWWRLD Distribution (music videos + street content), GCU, SEBC, and personal client projects spanning album artwork, clothing design, and event posters.',
+    c1:{ btn:'What has he designed?',  msg:'Posters, album covers, social graphics, clothing, and brand assets — all built in Photoshop and Illustrator. Double-click My Projects on the desktop to see the full portfolio.' },
+    c2:{ btn:'What about video?',      msg:'At NEWWRLD Distribution, Aiden co-produced music videos and From The Block shoots end-to-end — from location scouting and shot lists through final edits in Premiere Pro.' },
+  },
+  { id:'ai', label:'AI & Automation', drive:'G:', icon:'icons/control-panel.png', fill:88,
+    tools:'Agentic AI · Prompt Engineering · Custom AI Frontends · Content Scaling · Workflow Automation',
+    what:'Using AI agents, precision prompt engineering, and automation to scale output and rapidly build custom AI-powered products — from marketing workflows to fully functional interactive frontends like the site you\'re on right now.',
+    where:'Telaré Law (content pipelines, ad copy generation), personal projects (AI-powered workflow automation), and this portfolio itself — a fully custom Windows XP-themed interactive site built rapidly with AI.',
+    c1:{ btn:'Wait — this site was AI-built?', msg:'Yep! This entire Windows XP portfolio — draggable windows, Minesweeper, Clippy, the gallery, contact form, all of it — was rapidly built by Aiden using AI. That\'s the skill: knowing exactly what to build and how to direct AI to execute it at a high level.' },
+    c2:{ btn:'How\'s it used in marketing?',   msg:'At Telaré Law, Aiden used AI-assisted copy generation to run more ad variations than the team could manually produce — accelerating the testing cycle that helped hit 20x ROAS and $250K+ in projected revenue.' },
+  },
+];
+
+let mcActiveDrive = null;
+
+function mcShowPanel(id) {
+  document.querySelectorAll('.mc-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function mcInit() {
+  const grid = document.getElementById('mc-drives-grid');
+  if (!grid || grid.children.length > 0) return;
+  MC_DRIVES.forEach(d => {
+    const tile = document.createElement('div');
+    tile.className = 'drive-tile';
+    tile.dataset.id = d.id;
+    tile.innerHTML = `
+      <div class="drive-ico"><img src="${d.icon}" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
+      <div class="drive-info">
+        <p>${d.label} (${d.drive})</p>
+        <span>${d.tools}</span>
+        <div class="drive-bar"><div class="drive-fill" style="width:${d.fill}%"></div></div>
+      </div>`;
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('#mc-drives-grid .drive-tile').forEach(t => t.classList.remove('sel'));
+      tile.classList.add('sel');
+    });
+    let mcClickTimer = null;
+    tile.addEventListener('click', () => {
+      if (mcClickTimer) { clearTimeout(mcClickTimer); mcClickTimer = null; mcOpenDrive(d.id); }
+      else { mcClickTimer = setTimeout(() => { mcClickTimer = null; }, 350); }
+    });
+    if ('ontouchstart' in window) {
+      tile.addEventListener('touchend', e => { e.preventDefault(); mcOpenDrive(d.id); }, { passive: false });
+    }
+    grid.appendChild(tile);
+  });
+}
+
+function mcOpenDrive(driveId) {
+  const drive = MC_DRIVES.find(d => d.id === driveId);
+  if (!drive) return;
+  mcActiveDrive = driveId;
+  document.getElementById('mc-path-overview').textContent = `My Skills > ${drive.label}`;
+  document.getElementById('mycomp-title').textContent = drive.label;
+  document.getElementById('mc-status').textContent = drive.label;
+
+  document.getElementById('mc-overview-inner').innerHTML = `
+    <div class="mc-detail-head">
+      <div class="mc-detail-head-icon"><img src="${drive.icon}" alt="" style="width:28px;height:28px;object-fit:contain;"></div>
+      <div class="mc-detail-head-name">${drive.label}</div>
+    </div>
+    <div class="mc-detail-sec">
+      <div class="mc-detail-sec-label">Tools &amp; Technologies</div>
+      <div class="mc-detail-sec-text">${drive.tools}</div>
+    </div>
+    <div class="mc-detail-sec">
+      <div class="mc-detail-sec-label">What Aiden does here</div>
+      <div class="mc-detail-sec-text">${drive.what}</div>
+    </div>
+    <div class="mc-detail-sec">
+      <div class="mc-detail-sec-label">Where he's used it</div>
+      <div class="mc-detail-sec-text">${drive.where}</div>
+    </div>
+    <div class="mc-clippy-wrap">
+      <img class="mc-clippy-img" src="clippy.png" alt="Clippy">
+      <div class="mc-clippy-right">
+        <div class="mc-clippy-bubble" id="mc-clippy-text">It looks like you're exploring ${drive.label}! Ask me something.</div>
+        <div class="mc-clippy-btns">
+          <button class="mc-clippy-btn" id="mc-btn1" onclick="mcClippyOpt('${driveId}',1)">${drive.c1.btn}</button>
+          <button class="mc-clippy-btn" id="mc-btn2" onclick="mcClippyOpt('${driveId}',2)">${drive.c2.btn}</button>
+        </div>
+      </div>
+    </div>`;
+  mcShowPanel('mc-panel-overview');
+}
+
+function mcClippyOpt(driveId, opt) {
+  const drive = MC_DRIVES.find(d => d.id === driveId);
+  if (!drive) return;
+  const msg = opt === 1 ? drive.c1.msg : drive.c2.msg;
+  const bubble = document.getElementById('mc-clippy-text');
+  if (bubble) bubble.textContent = msg;
+  const btn = document.getElementById('mc-btn' + opt);
+  if (btn) btn.classList.add('used');
+}
+
+function mcBack() {
+  mcActiveDrive = null;
+  document.getElementById('mycomp-title').textContent = 'My Skills';
+  document.getElementById('mc-status').textContent = '5 skill categories';
+  mcShowPanel('mc-panel-drives');
+}
+
+// Init drives grid on first open
+const _mcOrigOpenWin = openWin;
+openWin = function(id) {
+  _mcOrigOpenWin(id);
+  if (id === 'mycomp') mcInit();
+};
+mcInit(); // also run on page load in case window starts open
 
 mineNewGame();
 </script>
