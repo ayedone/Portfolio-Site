@@ -262,14 +262,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
 
 /* My Computer */
 .mycomp-wrap{padding:10px 12px;background:var(--win-bg);height:100%;box-sizing:border-box;display:flex;flex-direction:column;}
-.mycomp-grid{display:grid;grid-template-columns:1fr;gap:7px;margin-top:6px;}
-.drive-tile{background:#fff;border:1px solid #C4C0B8;padding:8px 10px;border-radius:4px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;}
+.mycomp-grid{display:flex;flex-direction:column;gap:7px;margin-top:6px;flex:1;}
+.drive-tile{background:#fff;border:1px solid #C4C0B8;padding:8px 10px;border-radius:4px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;flex:1;}
 .drive-tile:hover{background:#EEF0FA;border-color:#316AC5;}
 .drive-tile.sel{background:#D8E4F8;border-color:#316AC5;}
 .drive-ico{flex-shrink:0;}
 .drive-info{min-width:0;}
 .drive-info p{font-size:11px;font-weight:700;color:#000;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .drive-info span{font-size:10px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
+.drive-info .drive-sub-mobile{display:none;}
 .drive-bar{height:5px;background:#DDD;border-radius:3px;margin-top:3px;overflow:hidden;}
 .drive-fill{height:100%;background:#316AC5;border-radius:3px;}
 .sysinfo{margin-top:8px;background:#fff;border:1px solid #C4C0B8;border-radius:4px;padding:7px 12px;flex-shrink:0;}
@@ -316,6 +317,23 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);backgro
   .dicon{width:60px;}
   .proj-grid{grid-template-columns:1fr;}
   #startMenu{width:280px;}
+  /* My Skills — mobile */
+  .mycomp-wrap{padding:8px 10px;}
+  .drive-tile{padding:10px 10px;gap:10px;}
+  .drive-info p{font-size:13px;}
+  .drive-info span{display:none;}
+  .drive-info .drive-sub-mobile{display:block;font-size:11px;color:#666;}
+  .drive-bar{height:6px;margin-top:5px;}
+  .sysinfo{padding:8px 10px;}
+  .sysinfo p{font-size:12px;line-height:1.8;}
+  .mc-path{font-size:11px;padding:4px 8px;}
+  .mc-back{font-size:13px;padding:5px 14px;margin-bottom:8px;}
+  .mc-detail-sec-label{font-size:11px;}
+  .mc-detail-sec-text{font-size:12px;line-height:1.6;}
+  .mc-detail-head-name{font-size:16px;}
+  .mc-clippy-bubble{font-size:12px;line-height:1.5;}
+  .mc-clippy-btn{font-size:12px;padding:5px 10px;}
+  .mc-clippy-img{width:44px;height:44px;}
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -1759,6 +1777,7 @@ mineNewGame();
    ═══════════════════════════════════════════════════ */
 const MC_DRIVES = [
   { id:'paid-media', label:'Paid Media & Analytics', drive:'C:', icon:'icons/my-network.png',    fill:90,
+    mobileSub:'Google Ads · Meta Ads',
     tools:'Google Ads · Meta Ads · UTM Architecture · GA4 · CallRail · Multi-Touch Attribution',
     what:'Full performance marketing stack — building, measuring, and optimizing paid campaigns across search and social to drive revenue at scale.',
     where:'Telaré Law — rebuilt the entire media mix from scratch, eliminating every negative-ROI channel and architecting a firm-wide UTM + CallRail attribution stack to track every dollar from first click to signed client.',
@@ -1766,6 +1785,7 @@ const MC_DRIVES = [
     c2:{ btn:'What\'s the attribution story?', msg:'Before Aiden\'s UTM framework, the team had no idea which ads were generating signed clients. After? Every dollar was traceable — which is exactly what led to the budget shift and the 20x ROAS result.' },
   },
   { id:'crm', label:'CRM & Lead Ops', drive:'D:', icon:'icons/shared-folder.png', fill:82,
+    mobileSub:'Salesforce · CallRail',
     tools:'Salesforce / Litify · Lead Docket · CallRail',
     what:'Building and maintaining the tech stack that connects marketing spend directly to signed clients — CRM setup, lead pipeline management, and attribution infrastructure.',
     where:'Telaré Law — assisted the full CRM buildout in Salesforce/Litify and Lead Docket, connecting marketing attribution data to intake so the team could measure real CPL per channel.',
@@ -1773,6 +1793,7 @@ const MC_DRIVES = [
     c2:{ btn:'Why does that matter?',   msg:'Before the CRM was properly connected to marketing, there was no way to know which channels were actually driving signed cases. After Aiden\'s work, budget decisions were based on real CPL data — not gut feel.' },
   },
   { id:'content', label:'Content & Social', drive:'E:', icon:'icons/my-documents.png', fill:87,
+    mobileSub:'Local SEO · Social Media',
     tools:'Local SEO · Google Business Profile · Social Media · Email Marketing · Omnichannel Strategy',
     what:'Planning, creating, and distributing content that builds brand presence and drives inbound leads — from data-driven content calendars to go-to-market SEO launches.',
     where:'Telaré Law (Facebook, Instagram, LinkedIn + local SEO for new office launch) and NEWWRLD Distribution (Instagram, TikTok, YouTube — up to 30 posts/day across multiple artist accounts).',
@@ -1780,6 +1801,7 @@ const MC_DRIVES = [
     c2:{ btn:'What about the SEO work?', msg:'Aiden led go-to-market local SEO for Telaré Law\'s new eastern Oregon office — GBP setup, local citations, and geo-targeted content — driving inquiries from week one before the office even had signage.' },
   },
   { id:'creative', label:'Creative Suite', drive:'F:', icon:'icons/my-pictures.png', fill:95,
+    mobileSub:'Adobe Creative Suite · Video',
     tools:'Adobe Photoshop · Illustrator · Premiere Pro · After Effects · Canva · Video Production',
     what:'End-to-end creative production — graphic design, brand identity, video, and visual content across print and digital for clients and artist brands.',
     where:'Telaré Law (brand refresh + website visuals), NEWWRLD Distribution (music videos + street content), GCU, SEBC, and personal client projects spanning album artwork, clothing design, and event posters.',
@@ -1787,6 +1809,7 @@ const MC_DRIVES = [
     c2:{ btn:'What about video?',      msg:'At NEWWRLD Distribution, Aiden co-produced music videos and From The Block shoots end-to-end — from location scouting and shot lists through final edits in Premiere Pro.' },
   },
   { id:'ai', label:'AI & Automation', drive:'G:', icon:'icons/control-panel.png', fill:88,
+    mobileSub:'Agentic AI · Prompt Engineering',
     tools:'Agentic AI · Prompt Engineering · Custom AI Frontends · Content Scaling · Workflow Automation',
     what:'Using AI agents, precision prompt engineering, and automation to scale output and rapidly build custom AI-powered products — from marketing workflows to fully functional interactive frontends like the site you\'re on right now.',
     where:'Telaré Law (content pipelines, ad copy generation), personal projects (AI-powered workflow automation), and this portfolio itself — a fully custom Windows XP-themed interactive site built rapidly with AI.',
@@ -1814,19 +1837,31 @@ function mcInit() {
       <div class="drive-info">
         <p>${d.label} (${d.drive})</p>
         <span>${d.tools}</span>
+        <span class="drive-sub-mobile">${d.mobileSub}</span>
         <div class="drive-bar"><div class="drive-fill" style="width:${d.fill}%"></div></div>
       </div>`;
+    // Desktop: single click selects, double click opens
+    let mcClickTimer = null;
     tile.addEventListener('click', () => {
       document.querySelectorAll('#mc-drives-grid .drive-tile').forEach(t => t.classList.remove('sel'));
       tile.classList.add('sel');
-    });
-    let mcClickTimer = null;
-    tile.addEventListener('click', () => {
       if (mcClickTimer) { clearTimeout(mcClickTimer); mcClickTimer = null; mcOpenDrive(d.id); }
       else { mcClickTimer = setTimeout(() => { mcClickTimer = null; }, 350); }
     });
+    // Mobile: first tap selects, second tap opens (double-tap)
     if ('ontouchstart' in window) {
-      tile.addEventListener('touchend', e => { e.preventDefault(); mcOpenDrive(d.id); }, { passive: false });
+      let tapTimer = null;
+      tile.addEventListener('touchend', e => {
+        e.preventDefault();
+        if (tapTimer) {
+          clearTimeout(tapTimer); tapTimer = null;
+          mcOpenDrive(d.id);
+        } else {
+          document.querySelectorAll('#mc-drives-grid .drive-tile').forEach(t => t.classList.remove('sel'));
+          tile.classList.add('sel');
+          tapTimer = setTimeout(() => { tapTimer = null; }, 400);
+        }
+      }, { passive: false });
     }
     grid.appendChild(tile);
   });
